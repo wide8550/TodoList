@@ -6,6 +6,7 @@ import { getTodo, editTodo, deleteTodo } from '../api/Todos';
 import { renderInputForm } from './renderInputForm';
 import { getInputForm } from './getInputForm';
 import { clearForm } from './clearForm';
+import { addContactFormBtnListener } from './addContactFormBtnListener';
 
 import { pageScroll } from '../utils/pageScroll';
 
@@ -62,6 +63,7 @@ export const displayTodos = (data) => {
       const currentTodoId = currentTodo.getAttribute('id');
       getTodo(currentTodoId).then((data) => {
         inputForm.innerHTML = renderInputForm(data);
+        addContactFormBtnListener();
         const editTodoBtn = document.querySelector('#editTodoBtn');
         editTodoBtn.addEventListener('click', () => {
           console.log('Submit Edit!');

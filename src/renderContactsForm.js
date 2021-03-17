@@ -5,7 +5,7 @@ function renderContactForm(contactName, contactContent) {
     <input
       type="text"
       class="form-control"
-      value=${contactContent}
+      value="${contactContent}"
       aria-label="Text input with dropdown button"
     />
     <select
@@ -59,7 +59,6 @@ export function renderContactsForm(target, contacts) {
     // target.insertAdjacentHTML('beforebegin', output);
   } else {
     let output = '';
-    // console.log(contacts);
     for (let key in contacts) {
       output += renderContactForm(key, contacts[key]);
     }

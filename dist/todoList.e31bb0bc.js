@@ -2161,7 +2161,7 @@ function renderContactForm(contactName, contactContent) {
     <input
       type="text"
       class="form-control"
-      value=${contactContent}
+      value="${contactContent}"
       aria-label="Text input with dropdown button"
     />
     <select
@@ -2202,7 +2202,7 @@ function renderContactsForm(target, contacts) {
 
     (0, _display.displayBeforeBegin)(output, target); // target.insertAdjacentHTML('beforebegin', output);
   } else {
-    let output = ''; // console.log(contacts);
+    let output = '';
 
     for (let key in contacts) {
       output += renderContactForm(key, contacts[key]);
@@ -7907,85 +7907,85 @@ const renderInputForm = data => {
 
   if (!data) {
     output += `<div class="form-group">
-      <div class="row row-cols-4">
-        <div class="col-6">
-          <!-- title -->
-          <input
-            type="text"
-            id="todo-title"
-            class="form-control mb-4"
-            placeholder="Title ..."
-            required
-          />
-        </div>
-        <div class="col">
-          <!-- date -->
-          <input
-            type="date"
-            id="todo-deadline"
-            class="form-control mb-4"
-            placeholder="DeadLine ..."
-            required
-          />
-        </div>
-        <div class="col">
-          <!-- time -->
-          <input
-            id="time-picker"
-            placeholder="例如: 14:00"
-            class="form-control mb-4"
-          />
-        </div>
-      </div>
-      <!-- contacts -->
-      <div class="row row-cols-4 contacts d-flex align-items-baseline">
-        <!-- contact -->
-        <div class="col-8 contact">
-          <div class="input-group mb-3">
-            <!-- phone number -->
-            <input
-              type="text"
-              class="form-control"
-              aria-label="Text input with dropdown button"
-            />
-            <!-- phone number types -->
-            <select
-              class="form-select"
-              aria-label="Default select example"
-            >
-              <option value="phone" selected>Phone</option>
-              <option value="home">Home</option>
-              <option value="office">Office</option>
-              <option value="fax">Fax</option>
-              <option value="others">Others</option>
-            </select>
+          <div class="row row-cols-4">
+            <div class="col-6">
+              <!-- title -->
+              <input
+                type="text"
+                id="todo-title"
+                class="form-control mb-4"
+                placeholder="Title ..."
+                required
+              />
+            </div>
+            <div class="col">
+              <!-- date -->
+              <input
+                type="date"
+                id="todo-deadline"
+                class="form-control mb-4"
+                placeholder="DeadLine ..."
+                required
+              />
+            </div>
+            <div class="col">
+              <!-- time -->
+              <input
+                id="time-picker"
+                placeholder="例如: 14:00"
+                class="form-control mb-4"
+              />
+            </div>
           </div>
-        </div>
-        <!--create select input form -->
-        <div class="col">
-          <a id="contactFormBtn" class="d-flex text-decoration-none">
-            <i class="fas fa-plus-circle fs-3"></i>
-          </a>
-        </div>
-      </div>
+          <!-- contacts -->
+          <div class="row row-cols-4 contacts d-flex align-items-baseline">
+            <!-- contact -->
+            <div class="col-8 contact">
+              <div class="input-group mb-3">
+                <!-- phone number -->
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-label="Text input with dropdown button"
+                />
+                <!-- phone number types -->
+                <select
+                  class="form-select"
+                  aria-label="Default select example"
+                >
+                  <option value="phone" selected>Phone</option>
+                  <option value="home">Home</option>
+                  <option value="office">Office</option>
+                  <option value="fax">Fax</option>
+                  <option value="others">Others</option>
+                </select>
+              </div>
+            </div>
+            <!--create select input form -->
+            <div class="col">
+              <a id="contactFormBtn" class="d-flex text-decoration-none">
+                <i class="fas fa-plus-circle fs-3"></i>
+              </a>
+            </div>
+          </div>
 
-      <textarea
-        class="form-control"
-        id="todo-content"
-        rows="3"
-        placeholder="Memo ..."
-      ></textarea>
+          <textarea
+            class="form-control"
+            id="todo-content"
+            rows="3"
+            placeholder="Memo ..."
+          ></textarea>
 
-      <div class="d-grid">
-        <button
-          id="submitTodo"
-          class="btn btn-primary text-light mt-3"
-          type="button"
-        >
-          送出
-        </button>
-      </div>
-    </div>`;
+          <div class="d-grid">
+            <button
+              id="submitTodo"
+              class="btn btn-primary text-light mt-3"
+              type="button"
+            >
+              送出
+            </button>
+          </div>
+        </div>`;
   } else {
     output += `<div class="form-group">
         <div className="container"> 
@@ -8006,14 +8006,14 @@ const renderInputForm = data => {
               type="date"
               id="todo-deadline"
               class="form-control mb-4"
-              value="${data.deadline ? (0, _moment.default)(data.deadline).format('YYYY-MM-DD') : ''}"
+              value="${data.deadline !== '' ? (0, _moment.default)(data.deadline).format('YYYY-MM-DD') : ''}"
               required
             />
           </div>
           <div class="col">       
             <input
               id="time-picker"
-              value="${data.deadline ? (0, _moment.default)(data.deadline).format('kk:mm') : ''}"
+              value="${data.deadline !== '' ? (0, _moment.default)(data.deadline).format('kk:mm') : ''}"
               class="form-control mb-4"
             />
           </div>
@@ -8075,6 +8075,26 @@ function clearForm() {
 
   (0, _renderContactsForm.renderContactsForm)(contactFormBtn, null); // console.log(todoContacts);
 }
+},{"./renderContactsForm":"src/renderContactsForm.js"}],"src/addContactFormBtnListener.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.addContactFormBtnListener = void 0;
+
+var _renderContactsForm = require("./renderContactsForm");
+
+const addContactFormBtnListener = () => {
+  const contactFormBtn = document.querySelector('#contactFormBtn i');
+  contactFormBtn.addEventListener('click', e => {
+    e.preventDefault();
+    console.log(e.target);
+    (0, _renderContactsForm.renderContactsForm)(e.target.parentNode.parentNode, null);
+  });
+};
+
+exports.addContactFormBtnListener = addContactFormBtnListener;
 },{"./renderContactsForm":"src/renderContactsForm.js"}],"utils/pageScroll.js":[function(require,module,exports) {
 "use strict";
 
@@ -8115,6 +8135,8 @@ var _renderInputForm = require("./renderInputForm");
 var _getInputForm = require("./getInputForm");
 
 var _clearForm = require("./clearForm");
+
+var _addContactFormBtnListener = require("./addContactFormBtnListener");
 
 var _pageScroll = require("../utils/pageScroll");
 
@@ -8172,6 +8194,7 @@ const displayTodos = data => {
       const currentTodoId = currentTodo.getAttribute('id');
       (0, _Todos.getTodo)(currentTodoId).then(data => {
         inputForm.innerHTML = (0, _renderInputForm.renderInputForm)(data);
+        (0, _addContactFormBtnListener.addContactFormBtnListener)();
         const editTodoBtn = document.querySelector('#editTodoBtn');
         editTodoBtn.addEventListener('click', () => {
           console.log('Submit Edit!');
@@ -8201,7 +8224,7 @@ const displayTodos = data => {
 };
 
 exports.displayTodos = displayTodos;
-},{"./display":"src/display.js","./renderDatas":"src/renderDatas.js","./removeDisplay":"src/removeDisplay.js","../api/Todos":"api/Todos.js","./renderInputForm":"src/renderInputForm.js","./getInputForm":"src/getInputForm.js","./clearForm":"src/clearForm.js","../utils/pageScroll":"utils/pageScroll.js"}],"src/refreshTodosDisplay.js":[function(require,module,exports) {
+},{"./display":"src/display.js","./renderDatas":"src/renderDatas.js","./removeDisplay":"src/removeDisplay.js","../api/Todos":"api/Todos.js","./renderInputForm":"src/renderInputForm.js","./getInputForm":"src/getInputForm.js","./clearForm":"src/clearForm.js","./addContactFormBtnListener":"src/addContactFormBtnListener.js","../utils/pageScroll":"utils/pageScroll.js"}],"src/refreshTodosDisplay.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8218,7 +8241,7 @@ var _displayTodos = require("./displayTodos");
 const refreshTodosDisplay = () => {
   const showTodoParent = document.getElementById('showTodo');
   const showFinishedParent = document.getElementById('completeTodo');
-  (0, _removeDisplay.removeDisplay)(parent);
+  (0, _removeDisplay.removeDisplay)(showTodoParent);
   (0, _removeDisplay.removeDisplay)(showFinishedParent);
   (0, _Todos.getTodos)().then(data => {
     (0, _displayTodos.displayTodos)(data);
@@ -8286,9 +8309,8 @@ const editTodo = async (id, data) => {
 
 exports.editTodo = editTodo;
 
-const deleteTodo = id => {
-  _axios.default.delete(`http://localhost:3000/todos/${id}`).then(res => console.log(res.data)).catch(err => console.log(err)); // refresh display
-
+const deleteTodo = async id => {
+  await _axios.default.delete(`http://localhost:3000/todos/${id}`).then(res => console.log(res.data)).catch(err => console.log(err)); // refresh display
 
   (0, _refreshTodosDisplay.refreshTodosDisplay)();
 };
@@ -8332,12 +8354,10 @@ var _clock = require("./src/clock");
 
 var _clearForm = require("./src/clearForm");
 
-var _renderContactsForm = require("./src/renderContactsForm");
-
 var _displayTodos = require("./src/displayTodos");
 
-3;
-const contactFormBtn = document.querySelector('#contactFormBtn i');
+var _addContactFormBtnListener = require("./src/addContactFormBtnListener");
+
 const submitBtn = document.getElementById('submitTodo'); // show clock
 
 (0, _clock.clock)(); // display Todos
@@ -8347,19 +8367,20 @@ const submitBtn = document.getElementById('submitTodo'); // show clock
 
 (0, _Todos.getTodos)().then(data => (0, _displayTodos.displayTodos)(data)); // Event Listener
 // add extra contact form
+// contactFormBtn.addEventListener('click', (e) => {
+//   e.preventDefault();
+//   console.log(e.target);
+//   renderContactsForm(e.target.parentNode.parentNode, null);
+// });
 
-contactFormBtn.addEventListener('click', e => {
-  e.preventDefault();
-  console.log(e.target);
-  (0, _renderContactsForm.renderContactsForm)(e.target.parentNode.parentNode, null);
-}); // submit event listener
+(0, _addContactFormBtnListener.addContactFormBtnListener)(); // submit event listener
 
 submitBtn.addEventListener('click', e => {
   e.preventDefault();
   (0, _Todos.createTodo)();
   (0, _clearForm.clearForm)();
 });
-},{"./api/Todos":"api/Todos.js","./src/clock":"src/clock.js","./src/clearForm":"src/clearForm.js","./src/renderContactsForm":"src/renderContactsForm.js","./src/displayTodos":"src/displayTodos.js"}],"C:/Users/Ben/AppData/Roaming/nvm/v12.18.3/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./api/Todos":"api/Todos.js","./src/clock":"src/clock.js","./src/clearForm":"src/clearForm.js","./src/displayTodos":"src/displayTodos.js","./src/addContactFormBtnListener":"src/addContactFormBtnListener.js"}],"C:/Users/Ben/AppData/Roaming/nvm/v12.18.3/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

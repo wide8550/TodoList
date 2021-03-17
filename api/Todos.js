@@ -53,8 +53,8 @@ export const editTodo = async (id, data) => {
   refreshTodosDisplay();
 };
 
-export const deleteTodo = (id) => {
-  axios
+export const deleteTodo = async (id) => {
+  await axios
     .delete(`http://localhost:3000/todos/${id}`)
     .then((res) => console.log(res.data))
     .catch((err) => console.log(err));
