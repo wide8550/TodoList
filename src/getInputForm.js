@@ -1,12 +1,10 @@
-const todoTitle = document.getElementById('todo-title');
-const todoDeadline = document.getElementById('todo-deadline');
-const timePicker = document.getElementById('time-picker');
-const todoContent = document.getElementById('todo-content');
-
 export const getInputForm = () => {
-  const title = todoTitle.value;
-  const deadline = todoDeadline.value + ' ' + timePicker.value;
-  const content = todoContent.value;
+  const title = document.getElementById('todo-title').value;
+  const deadline =
+    document.getElementById('todo-deadline').value +
+    ' ' +
+    document.getElementById('time-picker').value;
+  const content = document.getElementById('todo-content').value;
   const todoContacts = document.querySelectorAll('.contacts .contact');
 
   let contacts = {};

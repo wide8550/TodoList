@@ -33,7 +33,6 @@ function renderContactForm(contactName, contactContent) {
 }
 
 export function renderContactsForm(target, contacts) {
-  console.log('get in');
   if (!contacts) {
     let output = `<div class="col-8 contact">
     <div class="input-group mb-3">
@@ -60,7 +59,7 @@ export function renderContactsForm(target, contacts) {
     // target.insertAdjacentHTML('beforebegin', output);
   } else {
     let output = '';
-    console.log(contacts);
+    // console.log(contacts);
     for (let key in contacts) {
       output += renderContactForm(key, contacts[key]);
     }

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { getInputForm } from '../src/getInputForm';
 
-import { displayTodos } from '../src/displayTodos';
+import { refreshTodosDisplay } from '../src/refreshTodosDisplay';
 
 export const getTodos = () => {
   return axios
@@ -19,7 +19,7 @@ export const getTodo = (id) => {
   return axios
     .get(`http://localhost:3000/todos/${id}`)
     .then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       return res.data;
     })
     .catch((err) => {
@@ -27,10 +27,11 @@ export const getTodo = (id) => {
     });
 };
 
-export const createTodo = () => {
+export const createTodo = async () => {
   const input = getInputForm();
+  input.finished = false;
   console.log(input);
-  axios
+  await axios
     .post('http://localhost:3000/todos', input)
     .then((res) => {
       console.log(res.data);
@@ -40,22 +41,16 @@ export const createTodo = () => {
       console.log(err);
     });
   // console.log({ title, deadline, contacts, content });
-  getTodos().then((data) => {
-    displayTodos(data);
-  });
+  refreshTodosDisplay();
 };
 
-export const editTodo = (id, data) => {
-  console.log(data);
-  axios
+export const editTodo = async (id, data) => {
+  await axios
     .patch(`http://localhost:3000/todos/${id}`, data)
     .then((res) => console.log(res.data))
     .catch((err) => console.log(err));
 
-  // refresh display
-  getTodos().then((data) => {
-    displayTodos(data);
-  });
+  refreshTodosDisplay();
 };
 
 export const deleteTodo = (id) => {
@@ -65,7 +60,5 @@ export const deleteTodo = (id) => {
     .catch((err) => console.log(err));
 
   // refresh display
-  getTodos().then((data) => {
-    displayTodos(data);
-  });
+  refreshTodosDisplay();
 };

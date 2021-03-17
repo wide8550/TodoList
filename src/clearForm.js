@@ -1,18 +1,13 @@
 import { renderContactsForm } from './renderContactsForm';
 
-const todoTitle = document.getElementById('todo-title');
-const todoDeadline = document.getElementById('todo-deadline');
-const timePicker = document.getElementById('time-picker');
-const todoContent = document.getElementById('todo-content');
-
 export function clearForm() {
   const contactFormBtn = document.querySelector('#contactFormBtn').parentNode;
   const todoContacts = document.querySelectorAll('.contacts .contact');
 
-  todoTitle.value = '';
-  todoDeadline.value = '';
-  timePicker.value = '';
-  todoContent.value = '';
+  document.getElementById('todo-title').value = '';
+  document.getElementById('todo-deadline').value = '';
+  document.getElementById('time-picker').value = '';
+  document.getElementById('todo-content').value = '';
   todoContacts.forEach((todoContact) => {
     todoContact.remove();
   });

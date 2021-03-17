@@ -87,6 +87,9 @@ export const renderInputForm = (data) => {
     </div>`;
   } else {
     output += `<div class="form-group">
+        <div className="container"> 
+          <h3>Edit...</h3>
+        </div>    
         <div class="row row-cols-4">
           <div class="col-6">
             <input
@@ -112,7 +115,7 @@ export const renderInputForm = (data) => {
             <input
               id="time-picker"
               value="${
-                data.deadline ? moment(data.deadline).format('hh:mm') : ''
+                data.deadline ? moment(data.deadline).format('kk:mm') : ''
               }"
               class="form-control mb-4"
             />
@@ -138,7 +141,7 @@ export const renderInputForm = (data) => {
 
         <div class="d-grid">
           <button
-            id="EditTodoBtn"
+            id="editTodoBtn"
             class="btn btn-primary text-light mt-3"
             type="button"
           >
