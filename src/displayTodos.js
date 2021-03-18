@@ -65,14 +65,19 @@ export const displayTodos = (data) => {
         inputForm.innerHTML = renderInputForm(data);
         addContactFormBtnListener();
         const editTodoBtn = document.querySelector('#editTodoBtn');
-        editTodoBtn.addEventListener('click', () => {
+        const cancelEditBtn = document.querySelector('#cancelEditBtn');
+        function editTodos() {
           console.log('Submit Edit!');
           const input = getInputForm();
           editTodo(currentTodoId, input);
 
+          inputForm.innerHTML = renderInputForm();
           pageScroll(currentTodo);
-          clearForm();
-          // currentTodo.innerHTML = renderData(currentData);
+        }
+        editTodoBtn.addEventListener('click', editTodos);
+        cancelEditBtn.addEventListener('click', () => {
+          editTodoBtn.removeEventListener('click', editTodos);
+          inputForm.innerHTML = renderInputForm();
         });
       });
     });

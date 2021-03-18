@@ -142,15 +142,25 @@ export const renderInputForm = (data) => {
           id="todo-content"
           rows="3"
         >${data.content}</textarea>
-
-        <div class="d-grid">
-          <button
-            id="editTodoBtn"
-            class="btn btn-primary text-light mt-3"
-            type="button"
-          >
+        <div class="row">
+          <div class="col d-grid">
+            <button
+              id="editTodoBtn"
+              class="btn btn-primary text-light mt-3"
+              type="button"
+            >
             送出編輯
-          </button>
+            </button>
+          </div>
+          <div class="col d-grid">
+            <button
+              id="cancelEditBtn"
+              class="btn btn-info text-light mt-3"
+              type="button"
+            >
+              取消
+            </button>
+          </div>
         </div>
       </div>`;
   }

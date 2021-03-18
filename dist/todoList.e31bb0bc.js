@@ -2025,195 +2025,7 @@ const renderContacts = contacts => {
 };
 
 exports.renderContacts = renderContacts;
-},{}],"src/renderDatas.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.renderDatas = void 0;
-
-var _renderContacts = require("./renderContacts");
-
-const renderDatas = datas => {
-  let output = '';
-  let finishedOutput = ''; // console.log(datas);
-
-  datas.forEach(data => {
-    if (!data.finished) {
-      output += `<div class="todo card bg-light mb-5" id="${data.id}">
-    <div class="card-body">
-      <div class="card-title">
-        <div class="btn-toolbar justify-content-between" role="toolbar">
-          <div class="date d-flex align-items-center">${data.deadline}</div>
-
-          <div class="btn-group" role="group">
-            <button class="finishBtn btn btn-info" type="button">
-              <i class="far fa-check-circle fs-4"></i>
-            </button>
-            <button class="editBtn btn btn-secondary" type="button">
-              <i class="fas fa-edit fs-5"></i>
-            </button>
-            <button class="deleteBtn btn btn-danger" type="button">
-              <i class="fas fa-trash-alt fs-5"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="accordion" id="accordion-${data.id}">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="heading-${data.id}">
-            <button
-              class="accordion-button collapsed"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#collapse-${data.id}"
-              aria-expanded="false"
-              aria-controls="collapse-${data.id}"
-            >
-              ${data.title}
-            </button>
-          </h2>
-          <div
-            id="collapse-${data.id}"
-            class="accordion-collapse collapse"
-            aria-labelledby="heading-${data.id}"
-            data-bs-parent="#accordion-${data.id}"
-          >
-            <div class="accordion-body">
-              ${data.contacts ? (0, _renderContacts.renderContacts)(data.contacts) : ''}
-              <p>${data.content}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>`;
-    } else {
-      // console.log(finishedOutput);
-      finishedOutput += `<div class="todo card bg-light mb-5" id="${data.id}">
-      <div class="card-body">
-        <div class="card-title">
-          <div class="btn-toolbar justify-content-between" role="toolbar">
-            <div class="date d-flex align-items-center">${data.deadline}</div>
-  
-            <div class="btn-group" role="group">
-              <button class="finishedBtn btn btn-info" type="button">
-                <i class="fas fa-check-circle fs-4"></i>
-              </button>
-              <button class="deleteBtn btn btn-danger" type="button">
-                <i class="fas fa-trash-alt fs-5"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="accordion" id="accordion-${data.id}">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="heading-${data.id}">
-              <button
-                class="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapse-${data.id}"
-                aria-expanded="false"
-                aria-controls="collapse-${data.id}"
-              >
-                ${data.title}
-              </button>
-            </h2>
-            <div
-              id="collapse-${data.id}"
-              class="accordion-collapse collapse"
-              aria-labelledby="heading-${data.id}"
-              data-bs-parent="#accordion-${data.id}"
-            >
-              <div class="accordion-body">
-                ${data.contacts ? (0, _renderContacts.renderContacts)(data.contacts) : ''}
-                <p>${data.content}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>`;
-    }
-  });
-  return {
-    output,
-    finishedOutput
-  };
-};
-
-exports.renderDatas = renderDatas;
-},{"./renderContacts":"src/renderContacts.js"}],"src/renderContactsForm.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.renderContactsForm = renderContactsForm;
-
-var _display = require("./display");
-
-function renderContactForm(contactName, contactContent) {
-  return `<div class="col-8 contact">
-  <div class="input-group mb-3">
-    <input
-      type="text"
-      class="form-control"
-      value="${contactContent}"
-      aria-label="Text input with dropdown button"
-    />
-    <select
-      class="form-select"
-      aria-label="Default select example"
-    >
-      <option value="phone" ${contactName === 'phone' ? 'selected' : null}>Phone</option>
-      <option value="home" ${contactName === 'home' ? 'selected' : null}>Home</option>
-      <option value="office" ${contactName === 'office' ? 'selected' : null}>Office</option>
-      <option value="fax" ${contactName === 'fax' ? 'selected' : null}>Fax</option>
-      <option value="others" ${contactName === 'other' ? 'selected' : null}>Others</option>
-    </select> 
-  </div>
-</div>`;
-}
-
-function renderContactsForm(target, contacts) {
-  if (!contacts) {
-    let output = `<div class="col-8 contact">
-    <div class="input-group mb-3">
-      <input
-        type="text"
-        class="form-control"
-        aria-label="Text input with dropdown button"
-      />
-      <select
-        class="form-select"
-        aria-label="Default select example"
-      >
-        <option value="phone" selected>Phone</option>
-        <option value="home">Home</option>
-        <option value="office">Office</option>
-        <option value="fax">Fax</option>
-        <option value="others">Others</option>
-      </select> 
-    </div>
-  </div>`; // return output;
-
-    (0, _display.displayBeforeBegin)(output, target); // target.insertAdjacentHTML('beforebegin', output);
-  } else {
-    let output = '';
-
-    for (let key in contacts) {
-      output += renderContactForm(key, contacts[key]);
-    } // console.log(output);
-    // displayBeforeBegin(output, target);
-
-
-    return output; // target.insertAdjacentHTML('beforebegin', output);
-  }
-}
-},{"./display":"src/display.js"}],"node_modules/moment/moment.js":[function(require,module,exports) {
+},{}],"node_modules/moment/moment.js":[function(require,module,exports) {
 var define;
 var global = arguments[3];
 //! moment.js
@@ -7887,7 +7699,199 @@ var global = arguments[3];
 
 })));
 
-},{}],"src/renderInputForm.js":[function(require,module,exports) {
+},{}],"src/renderDatas.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.renderDatas = void 0;
+
+var _renderContacts = require("./renderContacts");
+
+var _moment = _interopRequireDefault(require("moment"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const renderDatas = datas => {
+  let output = '';
+  let finishedOutput = ''; // console.log(datas);
+
+  datas.sort((dataA, dataB) => (0, _moment.default)(dataA.deadline).valueOf() - (0, _moment.default)(dataB.deadline).valueOf()).forEach(data => {
+    if (!data.finished) {
+      output += `<div class="todo card bg-light mb-5" id="${data.id}">
+    <div class="card-body">
+      <div class="card-title">
+        <div class="btn-toolbar justify-content-between" role="toolbar">
+          <div class="date d-flex align-items-center">${data.deadline}</div>
+
+          <div class="btn-group" role="group">
+            <button class="finishBtn btn btn-info" type="button">
+              <i class="far fa-check-circle fs-4"></i>
+            </button>
+            <button class="editBtn btn btn-secondary" type="button">
+              <i class="fas fa-edit fs-5"></i>
+            </button>
+            <button class="deleteBtn btn btn-danger" type="button">
+              <i class="fas fa-trash-alt fs-5"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="accordion" id="accordion-${data.id}">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading-${data.id}">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapse-${data.id}"
+              aria-expanded="false"
+              aria-controls="collapse-${data.id}"
+            >
+              ${data.title}
+            </button>
+          </h2>
+          <div
+            id="collapse-${data.id}"
+            class="accordion-collapse collapse"
+            aria-labelledby="heading-${data.id}"
+            data-bs-parent="#accordion-${data.id}"
+          >
+            <div class="accordion-body">
+              ${data.contacts ? (0, _renderContacts.renderContacts)(data.contacts) : ''}
+              <p>${data.content}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+    } else {
+      // console.log(finishedOutput);
+      finishedOutput += `<div class="todo card bg-light mb-5" id="${data.id}">
+      <div class="card-body">
+        <div class="card-title">
+          <div class="btn-toolbar justify-content-between" role="toolbar">
+            <div class="date d-flex align-items-center">${data.deadline}</div>
+  
+            <div class="btn-group" role="group">
+              <button class="finishedBtn btn btn-info" type="button">
+                <i class="fas fa-check-circle fs-4"></i>
+              </button>
+              <button class="deleteBtn btn btn-danger" type="button">
+                <i class="fas fa-trash-alt fs-5"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="accordion" id="accordion-${data.id}">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="heading-${data.id}">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse-${data.id}"
+                aria-expanded="false"
+                aria-controls="collapse-${data.id}"
+              >
+                ${data.title}
+              </button>
+            </h2>
+            <div
+              id="collapse-${data.id}"
+              class="accordion-collapse collapse"
+              aria-labelledby="heading-${data.id}"
+              data-bs-parent="#accordion-${data.id}"
+            >
+              <div class="accordion-body">
+                ${data.contacts ? (0, _renderContacts.renderContacts)(data.contacts) : ''}
+                <p>${data.content}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    }
+  });
+  return {
+    output,
+    finishedOutput
+  };
+};
+
+exports.renderDatas = renderDatas;
+},{"./renderContacts":"src/renderContacts.js","moment":"node_modules/moment/moment.js"}],"src/renderContactsForm.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.renderContactsForm = renderContactsForm;
+
+var _display = require("./display");
+
+function renderContactForm(contactName, contactContent) {
+  return `<div class="col-8 contact">
+  <div class="input-group mb-3">
+    <input
+      type="text"
+      class="form-control"
+      value="${contactContent}"
+      aria-label="Text input with dropdown button"
+    />
+    <select
+      class="form-select"
+      aria-label="Default select example"
+    >
+      <option value="phone" ${contactName === 'phone' ? 'selected' : null}>Phone</option>
+      <option value="home" ${contactName === 'home' ? 'selected' : null}>Home</option>
+      <option value="office" ${contactName === 'office' ? 'selected' : null}>Office</option>
+      <option value="fax" ${contactName === 'fax' ? 'selected' : null}>Fax</option>
+      <option value="others" ${contactName === 'other' ? 'selected' : null}>Others</option>
+    </select> 
+  </div>
+</div>`;
+}
+
+function renderContactsForm(target, contacts) {
+  if (!contacts) {
+    let output = `<div class="col-8 contact">
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        aria-label="Text input with dropdown button"
+      />
+      <select
+        class="form-select"
+        aria-label="Default select example"
+      >
+        <option value="phone" selected>Phone</option>
+        <option value="home">Home</option>
+        <option value="office">Office</option>
+        <option value="fax">Fax</option>
+        <option value="others">Others</option>
+      </select> 
+    </div>
+  </div>`; // return output;
+
+    (0, _display.displayBeforeBegin)(output, target); // target.insertAdjacentHTML('beforebegin', output);
+  } else {
+    let output = '';
+
+    for (let key in contacts) {
+      output += renderContactForm(key, contacts[key]);
+    } // console.log(output);
+    // displayBeforeBegin(output, target);
+
+
+    return output; // target.insertAdjacentHTML('beforebegin', output);
+  }
+}
+},{"./display":"src/display.js"}],"src/renderInputForm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8035,15 +8039,25 @@ const renderInputForm = data => {
           id="todo-content"
           rows="3"
         >${data.content}</textarea>
-
-        <div class="d-grid">
-          <button
-            id="editTodoBtn"
-            class="btn btn-primary text-light mt-3"
-            type="button"
-          >
+        <div class="row">
+          <div class="col d-grid">
+            <button
+              id="editTodoBtn"
+              class="btn btn-primary text-light mt-3"
+              type="button"
+            >
             送出編輯
-          </button>
+            </button>
+          </div>
+          <div class="col d-grid">
+            <button
+              id="cancelEditBtn"
+              class="btn btn-info text-light mt-3"
+              type="button"
+            >
+              取消
+            </button>
+          </div>
         </div>
       </div>`;
   }
@@ -8107,7 +8121,7 @@ const pageScroll = target => {
   // console.log(window.pageYOffset);
   // console.log(target.getBoundingClientRect().top);
   window.scroll({
-    top: window.pageYOffset + target.getBoundingClientRect().top,
+    top: window.pageYOffset + target.getBoundingClientRect().top - 50,
     left: 0,
     behavior: 'smooth'
   });
@@ -8196,12 +8210,20 @@ const displayTodos = data => {
         inputForm.innerHTML = (0, _renderInputForm.renderInputForm)(data);
         (0, _addContactFormBtnListener.addContactFormBtnListener)();
         const editTodoBtn = document.querySelector('#editTodoBtn');
-        editTodoBtn.addEventListener('click', () => {
+        const cancelEditBtn = document.querySelector('#cancelEditBtn');
+
+        function editTodos() {
           console.log('Submit Edit!');
           const input = (0, _getInputForm.getInputForm)();
           (0, _Todos.editTodo)(currentTodoId, input);
+          inputForm.innerHTML = (0, _renderInputForm.renderInputForm)();
           (0, _pageScroll.pageScroll)(currentTodo);
-          (0, _clearForm.clearForm)(); // currentTodo.innerHTML = renderData(currentData);
+        }
+
+        editTodoBtn.addEventListener('click', editTodos);
+        cancelEditBtn.addEventListener('click', () => {
+          editTodoBtn.removeEventListener('click', editTodos);
+          inputForm.innerHTML = (0, _renderInputForm.renderInputForm)();
         });
       });
     });
@@ -8408,7 +8430,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "5657" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "1706" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

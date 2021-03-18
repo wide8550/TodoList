@@ -1,12 +1,19 @@
 import { renderContacts } from './renderContacts';
+
+import moment from 'moment';
 export const renderDatas = (datas) => {
   let output = '';
   let finishedOutput = '';
   // console.log(datas);
 
-  datas.forEach((data) => {
-    if (!data.finished) {
-      output += `<div class="todo card bg-light mb-5" id="${data.id}">
+  datas
+    .sort(
+      (dataA, dataB) =>
+        moment(dataA.deadline).valueOf() - moment(dataB.deadline).valueOf()
+    )
+    .forEach((data) => {
+      if (!data.finished) {
+        output += `<div class="todo card bg-light mb-5" id="${data.id}">
     <div class="card-body">
       <div class="card-title">
         <div class="btn-toolbar justify-content-between" role="toolbar">
@@ -54,9 +61,9 @@ export const renderDatas = (datas) => {
       </div>
     </div>
   </div>`;
-    } else {
-      // console.log(finishedOutput);
-      finishedOutput += `<div class="todo card bg-light mb-5" id="${data.id}">
+      } else {
+        // console.log(finishedOutput);
+        finishedOutput += `<div class="todo card bg-light mb-5" id="${data.id}">
       <div class="card-body">
         <div class="card-title">
           <div class="btn-toolbar justify-content-between" role="toolbar">
@@ -101,8 +108,8 @@ export const renderDatas = (datas) => {
         </div>
       </div>
     </div>`;
-    }
-  });
+      }
+    });
 
   return { output, finishedOutput };
 };
