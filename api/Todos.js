@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-import { getInputForm } from '../src/getInputForm';
-
 import { refreshTodosDisplay } from '../src/refreshTodosDisplay';
 
 export const getTodos = () => {
@@ -27,10 +25,7 @@ export const getTodo = (id) => {
     });
 };
 
-export const createTodo = async () => {
-  const input = getInputForm();
-  input.finished = false;
-  console.log(input);
+export const createTodo = async (input) => {
   await axios
     .post('http://localhost:3000/todos', input)
     .then((res) => {
@@ -56,7 +51,7 @@ export const editTodo = async (id, data) => {
 export const deleteTodo = async (id) => {
   await axios
     .delete(`http://localhost:3000/todos/${id}`)
-    .then((res) => console.log(res.data))
+    .then((res) => console.log('delete !', res.data))
     .catch((err) => console.log(err));
 
   // refresh display

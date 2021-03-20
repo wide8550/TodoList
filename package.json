@@ -8,7 +8,8 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
-    "moment": "^2.29.1"
+    "moment": "^2.29.1",
+    "validator": "^13.5.2"
   },
   "browserslist": [
     "last 3 and_chr versions",

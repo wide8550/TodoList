@@ -1,10 +1,8 @@
 export const getInputForm = () => {
-  const title = document.getElementById('todo-title').value;
-  const deadline =
-    document.getElementById('todo-deadline').value +
-    ' ' +
-    document.getElementById('time-picker').value;
-  const content = document.getElementById('todo-content').value;
+  const title = document.getElementById('todo-title').value.trim();
+  const deadlineDate = document.getElementById('todo-deadline').value.trim();
+  const deadlineTime = document.getElementById('time-picker').value.trim();
+  const content = document.getElementById('todo-content').value.trim();
   const todoContacts = document.querySelectorAll('.contacts .contact');
 
   let contacts = {};
@@ -12,6 +10,7 @@ export const getInputForm = () => {
     const phoneNumber = contact.children[0].children[0].value;
     const type = contact.children[0].children[1].value;
     // console.log(contact);
+    if (!phoneNumber) return;
     contacts[type] = phoneNumber;
   });
 
@@ -23,7 +22,10 @@ export const getInputForm = () => {
   // });
   return {
     title,
-    deadline,
+    deadline: {
+      deadlineDate,
+      deadlineTime
+    },
     contacts,
     content
   };

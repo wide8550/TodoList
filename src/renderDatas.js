@@ -9,7 +9,8 @@ export const renderDatas = (datas) => {
   datas
     .sort(
       (dataA, dataB) =>
-        moment(dataA.deadline).valueOf() - moment(dataB.deadline).valueOf()
+        moment(new Date(dataA.deadline)).valueOf() -
+        moment(new Date(dataB.deadline)).valueOf()
     )
     .forEach((data) => {
       if (!data.finished) {

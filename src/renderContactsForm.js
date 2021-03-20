@@ -1,6 +1,7 @@
+import { addFormBlurEventListener } from './addFormBlurEventListener';
 import { displayBeforeBegin } from './display';
 function renderContactForm(contactName, contactContent) {
-  return `<div class="col-8 contact">
+  return `<div class="col-9 contact">
   <div class="input-group mb-3">
     <input
       type="text"
@@ -28,40 +29,31 @@ function renderContactForm(contactName, contactContent) {
         contactName === 'other' ? 'selected' : null
       }>Others</option>
     </select> 
+    <small
+      class="invisible position-absolute text-danger fw-bold"
+    ></small>
   </div>
 </div>`;
 }
 
 export function renderContactsForm(target, contacts) {
+  // console.log(contacts);
   if (!contacts) {
-    let output = `<div class="col-8 contact">
-    <div class="input-group mb-3">
-      <input
-        type="text"
-        class="form-control"
-        aria-label="Text input with dropdown button"
-      />
-      <select
-        class="form-select"
-        aria-label="Default select example"
-      >
-        <option value="phone" selected>Phone</option>
-        <option value="home">Home</option>
-        <option value="office">Office</option>
-        <option value="fax">Fax</option>
-        <option value="others">Others</option>
-      </select> 
-    </div>
-  </div>`;
-
-    // return output;
+    let output = '';
+    output += renderContactForm(null, '');
+    console.log('shit');
     displayBeforeBegin(output, target);
+    addFormBlurEventListener();
+    return output;
     // target.insertAdjacentHTML('beforebegin', output);
   } else {
+    console.log('check');
     let output = '';
     for (let key in contacts) {
+      console.log(key, contacts[key]);
       output += renderContactForm(key, contacts[key]);
     }
+    addFormBlurEventListener();
     // console.log(output);
     // displayBeforeBegin(output, target);
     return output;

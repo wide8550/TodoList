@@ -5,16 +5,21 @@ function renderContact(contactName, contactContent) {
 // render data contacts
 export const renderContacts = (contacts) => {
   if (!contacts) {
-    return console.log('No Contacts');
+    console.log('No Contacts');
+    return;
   }
   let output = '';
   for (let key in contacts) {
     output += renderContact(key, contacts[key]);
   }
 
-  return `
-  <div class="contact-items">
-    ${output}
-  </div>
-  <hr />`;
+  if (!output) {
+    return '';
+  } else {
+    return `
+    <div class="contact-items">
+      ${output}
+    </div>
+    <hr />`;
+  }
 };

@@ -11,10 +11,10 @@
       crossorigin="anonymous"
     />
 
-    <link
+    <!-- <link
       rel="stylesheet"
       href="https://unpkg.com/js-datepicker/dist/datepicker.min.css"
-    />
+    /> -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"
@@ -37,57 +37,76 @@
           <form id="inputForm">
             <div class="form-group">
               <div class="row row-cols-4">
-                <div class="col-6">
+                <div class="col-6 position-relative">
                   <!-- title -->
                   <input
                     type="text"
                     id="todo-title"
-                    class="form-control mb-4"
+                    name="title"
+                    class="form-control"
                     placeholder="Title ..."
-                    required
                   />
+                  <small
+                    class="invisible position-absolute text-danger fw-bold"
+                  ></small>
                 </div>
-                <div class="col">
+
+                <div class="col-6 mb-4 position-relative">
                   <!-- date -->
                   <input
                     type="date"
                     id="todo-deadline"
-                    class="form-control mb-4"
+                    name="deadlineDate"
+                    class="form-control"
                     placeholder="DeadLine ..."
-                    required
                   />
+                  <small
+                    class="invisible position-absolute text-danger fw-bold"
+                  ></small>
                 </div>
-                <div class="col">
+                <div class="col-6"></div>
+                <div class="col mb-4 position-relative">
                   <!-- time -->
                   <input
                     id="time-picker"
+                    name="deadlineTime"
+                    class="form-control"
                     placeholder="例如: 14:00"
-                    class="form-control mb-4"
                   />
+                  <small
+                    class="invisible position-absolute text-danger fw-bold"
+                  ></small>
                 </div>
               </div>
               <!-- contacts -->
-              <div class="row row-cols-4 contacts d-flex align-items-baseline">
+              <div
+                class="row row-cols-4 contacts d-flex align-items-baseline mb-2"
+              >
                 <!-- contact -->
-                <div class="col-8 contact">
-                  <div class="input-group mb-3">
+                <div class="col-9 contact">
+                  <div class="input-group mb-4 position-relative">
                     <!-- phone number -->
                     <input
                       type="text"
-                      class="form-control"
+                      class="form-control phoneNumber"
                       aria-label="Text input with dropdown button"
+                      name="phoneNumber"
                     />
+
                     <!-- phone number types -->
                     <select
-                      class="form-select"
+                      class="form-select rounded-end"
                       aria-label="Default select example"
                     >
-                      <option value="phone" selected>Phone</option>
+                      <option value="phone">Phone</option>
                       <option value="home">Home</option>
                       <option value="office">Office</option>
                       <option value="fax">Fax</option>
                       <option value="others">Others</option>
                     </select>
+                    <small
+                      class="invisible position-absolute text-danger fw-bold"
+                    ></small>
                   </div>
                 </div>
                 <!--create select input form -->
@@ -109,7 +128,7 @@
                 <button
                   id="submitTodo"
                   class="btn btn-primary text-light mt-3"
-                  type="button"
+                  type="submit"
                 >
                   送出
                 </button>
