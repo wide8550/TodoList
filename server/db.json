@@ -97,18 +97,34 @@
     {
       "title": "123",
       "deadline": "2021-03-03 16:00",
-      "contacts": {},
+      "contacts": {
+        "phone": "123",
+        "office": "465"
+      },
       "content": "kjfhwthfwfhqlweofhwloifeh",
-      "finished": false,
+      "finished": true,
       "id": "iFXZvag"
     },
     {
-      "title": "book ones",
-      "deadline": "2021-03-05",
-      "contacts": {},
+      "title": "book two",
+      "deadline": "2021-03-03 00:00",
+      "contacts": {
+        "home": "123",
+        "phone": "465798"
+      },
       "content": "",
       "finished": false,
-      "id": "f5aljQZ"
+      "id": "BoYRPW-"
+    },
+    {
+      "title": "123456",
+      "deadline": "2021-03-01 15:30",
+      "contacts": {
+        "phone": "132"
+      },
+      "content": "",
+      "finished": false,
+      "id": "rsCyxKU"
     }
   ]
 }

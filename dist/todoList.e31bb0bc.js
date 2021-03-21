@@ -15014,19 +15014,17 @@ function renderContactForm(contactName, contactContent) {
 
 function renderContactsForm(target, contacts) {
   // console.log(contacts);
-  if (!contacts) {
+  if (JSON.stringify(contacts) == '{}') {
     let output = '';
     output += renderContactForm(null, '');
-    console.log('shit');
     (0, _display.displayBeforeBegin)(output, target);
     (0, _addFormBlurEventListener.addFormBlurEventListener)();
     return output; // target.insertAdjacentHTML('beforebegin', output);
   } else {
-    console.log('check');
     let output = '';
 
     for (let key in contacts) {
-      console.log(key, contacts[key]);
+      // console.log(key, contacts[key]);
       output += renderContactForm(key, contacts[key]);
     }
 
@@ -15059,134 +15057,144 @@ const renderInputForm = data => {
 
   if (!data) {
     output += `<div class="form-group">
-          <div class="row row-cols-4">
-            <div class="col-6 mb-4 position-relative">
-              <!-- title -->
-              <input
-                type="text"
-                id="todo-title"
-                class="form-control"
-                placeholder="Title ..."
-                required
-              />
-              <small
-                class="invisible position-absolute text-danger fw-bold"
-              ></small>
-            </div>
-            <div class="col mb-4 position-relative">
-              <!-- date -->
-              <input
-                type="date"
-                id="todo-deadline"
-                class="form-control"
-                placeholder="DeadLine ..."
-                required
-              />
-              <small
-                class="invisible position-absolute text-danger fw-bold"
-              ></small>
-            </div>
-            <div class="col mb-4 position-relative">
-              <!-- time -->
-              <input
-                id="time-picker"
-                placeholder="例如: 14:00"
-                class="form-control"
-              />
-              <small
-                class="invisible position-absolute text-danger fw-bold"
-              ></small>
-            </div>
-          </div>
-          <!-- contacts -->
-          <div class="row row-cols-4 contacts d-flex align-items-baseline">
-            <!-- contact -->
-            <div class="col-8 contact">
-              <div class="input-group mb-3 position-relative">
-                <!-- phone number -->
-                <input
-                  type="text"
-                  class="form-control"
-                  aria-label="Text input with dropdown button"
-                />
-                <!-- phone number types -->
-                <select
-                  class="form-select"
-                  aria-label="Default select example"
-                >
-                  <option value="phone" selected>Phone</option>
-                  <option value="home">Home</option>
-                  <option value="office">Office</option>
-                  <option value="fax">Fax</option>
-                  <option value="others">Others</option>
-                </select>
-                <small
-                  class="invisible position-absolute text-danger fw-bold"
-                ></small>
-              </div>
-            </div>
-            <!--create select input form -->
-            <div class="col">
-              <a id="contactFormBtn" class="d-flex text-decoration-none">
-                <i class="fas fa-plus-circle fs-3"></i>
-              </a>
-            </div>
-          </div>
+                  <div class="row row-cols-4">
+                    <div class="col-6 position-relative">
+                      <!-- title -->
+                      <input
+                        type="text"
+                        id="todo-title"
+                        name="title"
+                        class="form-control"
+                        placeholder="Title ..."
+                      />
+                      <small
+                        class="invisible position-absolute text-danger fw-bold"
+                      ></small>
+                    </div>
 
-          <textarea
-            class="form-control"
-            id="todo-content"
-            rows="3"
-            placeholder="Memo ..."
-          ></textarea>
+                    <div class="col-6 mb-4 position-relative">
+                      <!-- date -->
+                      <input
+                        type="date"
+                        id="todo-deadline"
+                        name="deadlineDate"
+                        class="form-control"
+                        placeholder="DeadLine ..."
+                      />
+                      <small
+                        class="invisible position-absolute text-danger fw-bold"
+                      ></small>
+                    </div>
+                    <div class="col-6"></div>
+                    <div class="col mb-4 position-relative">
+                      <!-- time -->
+                      <input
+                        id="time-picker"
+                        name="deadlineTime"
+                        class="form-control"
+                        placeholder="例如: 14:00"
+                      />
+                      <small
+                        class="invisible position-absolute text-danger fw-bold"
+                      ></small>
+                    </div>
+                  </div>
+                  <!-- contacts -->
+                  <div
+                    class="row row-cols-4 contacts d-flex align-items-baseline mb-2"
+                  >
+                    <!-- contact -->
+                    <div class="col-9 contact">
+                      <div class="input-group mb-4 position-relative">
+                        <!-- phone number -->
+                        <input
+                          type="text"
+                          class="form-control phoneNumber"
+                          aria-label="Text input with dropdown button"
+                          name="phoneNumber"
+                        />
 
-          <div class="d-grid">
-            <button
-              id="submitTodo"
-              class="btn btn-primary text-light mt-3"
-              type="button"
-            >
-              送出
-            </button>
-          </div>
-        </div>`;
+                        <!-- phone number types -->
+                        <select
+                          class="form-select rounded-end"
+                          aria-label="Default select example"
+                        >
+                          <option value="phone">Phone</option>
+                          <option value="home">Home</option>
+                          <option value="office">Office</option>
+                          <option value="fax">Fax</option>
+                          <option value="others">Others</option>
+                        </select>
+                        <small
+                          class="invisible position-absolute text-danger fw-bold"
+                        ></small>
+                      </div>
+                    </div>
+                    <!--create select input form -->
+                    <div class="col">
+                      <a id="contactFormBtn" class="d-flex text-decoration-none">
+                        <i class="fas fa-plus-circle fs-3"></i>
+                      </a>
+                    </div>
+                  </div>
+
+                  <textarea
+                    class="form-control"
+                    id="todo-content"
+                    rows="3"
+                    placeholder="Memo ..."
+                  ></textarea>
+
+                  <div class="d-grid">
+                    <button
+                      id="submitTodo"
+                      class="btn btn-primary text-light mt-3"
+                      type="submit"
+                    >
+                      送出
+                    </button>
+                  </div>
+                </div>`;
     return output;
   } else {
-    console.log(data.deadline);
     output += `<div class="form-group">
         <div className="container"> 
           <h3>Edit...</h3>
         </div>    
         <div class="row row-cols-4">
-          <div class="col-6 mb-4 position-relative">
+          <div class="col-6 position-relative">
             <input
               type="text"
               id="todo-title"
+              name="title"
               class="form-control"
               value="${data.title}"
-              required
+              placeholder="Title ..."
             />
             <small
               class="invisible position-absolute text-danger fw-bold"
             ></small>
           </div>
-          <div class="col mb-4 position-relative">        
+          <div class="col-6 mb-4 position-relative">        
             <input
               type="date"
               id="todo-deadline"
+              name="deadlineDate"
               class="form-control"
+              placeholder="DeadLine ..."
               value="${data.deadline !== '' ? (0, _moment.default)(data.deadline).format('YYYY-MM-DD') : ''}"
-              required
             />
             <small
               class="invisible position-absolute text-danger fw-bold"
             ></small>
           </div>
+          <div class="col-6"></div>
           <div class="col mb-4 position-relative">       
             <input
               id="time-picker"
-              value="${data.deadline !== '' ? (0, _moment.default)(data.deadline).format('HH:mm') : ''}"
+              name="deadlineTime"
               class="form-control"
+              value="${data.deadline !== '' ? (0, _moment.default)(data.deadline).format('HH:mm') : ''}"
             />
             <small
               class="invisible position-absolute text-danger fw-bold"
@@ -15194,10 +15202,8 @@ const renderInputForm = data => {
           </div>
         </div>
      
-        <div class="row row-cols-4 contacts d-flex align-items-baseline">
-         
+        <div class="row row-cols-4 contacts d-flex align-items-baseline mb-2">
           ${(0, _renderContactsForm.renderContactsForm)(contactFormBtn, data.contacts)}
-         
           <div class="col">
             <a id="contactFormBtn" class="d-flex text-decoration-none">
               <i class="fas fa-plus-circle fs-3"></i>
@@ -15209,6 +15215,7 @@ const renderInputForm = data => {
           class="form-control"
           id="todo-content"
           rows="3"
+          placeholder="Memo ..."
         >${data.content}</textarea>
         <div class="row">
           <div class="col d-grid">
@@ -15292,7 +15299,7 @@ const addContactFormBtnListener = () => {
   contactFormBtn.addEventListener('click', e => {
     e.preventDefault(); // console.log(e.target);
 
-    (0, _renderContactsForm.renderContactsForm)(e.target.parentNode.parentNode, null);
+    (0, _renderContactsForm.renderContactsForm)(e.target.parentNode.parentNode, {});
   });
 };
 
@@ -15316,7 +15323,39 @@ const pageScroll = target => {
 };
 
 exports.pageScroll = pageScroll;
-},{}],"src/displayTodos.js":[function(require,module,exports) {
+},{}],"src/clearForm.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.clearForm = clearForm;
+
+var _renderContactsForm = require("./renderContactsForm");
+
+var _addContactFormBtnListener = require("./addContactFormBtnListener");
+
+var _addFormBlurEventListener = require("./addFormBlurEventListener");
+
+function clearForm() {
+  const contactFormBtn = document.querySelector('#contactFormBtn').parentNode;
+  const todoContacts = document.querySelectorAll('.contacts .contact');
+  document.getElementById('todo-title').value = '';
+  document.getElementById('todo-title').classList.remove('border', 'border-success', 'border-danger');
+  document.getElementById('todo-deadline').value = '';
+  document.getElementById('todo-deadline').classList.remove('border', 'border-success', 'border-danger');
+  document.getElementById('time-picker').value = '';
+  document.getElementById('time-picker').classList.remove('border', 'border-success', 'border-danger');
+  document.getElementById('todo-content').value = '';
+  todoContacts.forEach(todoContact => {
+    todoContact.remove();
+  }); // Add new contact form after cleanup
+
+  (0, _renderContactsForm.renderContactsForm)(contactFormBtn, {});
+  (0, _addContactFormBtnListener.addContactFormBtnListener)();
+  (0, _addFormBlurEventListener.addFormBlurEventListener)(); // console.log(todoContacts);
+}
+},{"./renderContactsForm":"src/renderContactsForm.js","./addContactFormBtnListener":"src/addContactFormBtnListener.js","./addFormBlurEventListener":"src/addFormBlurEventListener.js"}],"src/displayTodos.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15343,6 +15382,8 @@ var _addFormBlurEventListener = require("./addFormBlurEventListener");
 var _pageScroll = require("../utils/pageScroll");
 
 var _formValidate = require("./formValidate");
+
+var _clearForm = require("./clearForm");
 
 const displayResult = document.getElementById('showTodo');
 const displayFinishedResult = document.getElementById('completeTodo');
@@ -15404,7 +15445,9 @@ const displayTodos = data => {
         (0, _addContactFormBtnListener.addContactFormBtnListener)();
         const editTodoBtn = document.querySelector('#editTodoBtn');
         const cancelEditBtn = document.querySelector('#cancelEditBtn');
-        editTodoBtn.addEventListener('click', () => {
+        editTodoBtn.addEventListener('click', editTodos);
+
+        function editTodos() {
           console.log('Submit Edit!');
           const input = (0, _getInputForm.getInputForm)();
           const deadline = input.deadline.deadlineTime ? input.deadline.deadlineDate + ' ' + input.deadline.deadlineTime : input.deadline.deadlineDate;
@@ -15417,14 +15460,20 @@ const displayTodos = data => {
           }
 
           if (checkInputFlag) {
+            console.log(input);
             (0, _Todos.editTodo)(currentTodoId, input);
             inputForm.innerHTML = (0, _renderInputForm.renderInputForm)();
+            (0, _addContactFormBtnListener.addContactFormBtnListener)();
+            (0, _addFormBlurEventListener.addFormBlurEventListener)();
             (0, _pageScroll.pageScroll)(currentTodo);
           }
-        });
+        }
+
         cancelEditBtn.addEventListener('click', () => {
           editTodoBtn.removeEventListener('click', editTodos);
           inputForm.innerHTML = (0, _renderInputForm.renderInputForm)();
+          (0, _addContactFormBtnListener.addContactFormBtnListener)();
+          (0, _addFormBlurEventListener.addFormBlurEventListener)();
         });
       });
     });
@@ -15446,7 +15495,7 @@ const displayTodos = data => {
 };
 
 exports.displayTodos = displayTodos;
-},{"./display":"src/display.js","./renderDatas":"src/renderDatas.js","./removeDisplay":"src/removeDisplay.js","../api/Todos":"api/Todos.js","./renderInputForm":"src/renderInputForm.js","./getInputForm":"src/getInputForm.js","./addContactFormBtnListener":"src/addContactFormBtnListener.js","./addFormBlurEventListener":"src/addFormBlurEventListener.js","../utils/pageScroll":"utils/pageScroll.js","./formValidate":"src/formValidate.js"}],"src/refreshTodosDisplay.js":[function(require,module,exports) {
+},{"./display":"src/display.js","./renderDatas":"src/renderDatas.js","./removeDisplay":"src/removeDisplay.js","../api/Todos":"api/Todos.js","./renderInputForm":"src/renderInputForm.js","./getInputForm":"src/getInputForm.js","./addContactFormBtnListener":"src/addContactFormBtnListener.js","./addFormBlurEventListener":"src/addFormBlurEventListener.js","../utils/pageScroll":"utils/pageScroll.js","./formValidate":"src/formValidate.js","./clearForm":"src/clearForm.js"}],"src/refreshTodosDisplay.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15562,33 +15611,7 @@ const clock = () => setInterval(() => {
 }, 1000);
 
 exports.clock = clock;
-},{"moment":"node_modules/moment/moment.js"}],"src/clearForm.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.clearForm = clearForm;
-
-var _renderContactsForm = require("./renderContactsForm");
-
-function clearForm() {
-  const contactFormBtn = document.querySelector('#contactFormBtn').parentNode;
-  const todoContacts = document.querySelectorAll('.contacts .contact');
-  document.getElementById('todo-title').value = '';
-  document.getElementById('todo-title').classList.remove('border', 'border-success', 'border-danger');
-  document.getElementById('todo-deadline').value = '';
-  document.getElementById('todo-deadline').classList.remove('border', 'border-success', 'border-danger');
-  document.getElementById('time-picker').value = '';
-  document.getElementById('time-picker').classList.remove('border', 'border-success', 'border-danger');
-  document.getElementById('todo-content').value = '';
-  todoContacts.forEach(todoContact => {
-    todoContact.remove();
-  }); // Add new contact form after cleanup
-
-  (0, _renderContactsForm.renderContactsForm)(contactFormBtn, null); // console.log(todoContacts);
-}
-},{"./renderContactsForm":"src/renderContactsForm.js"}],"index.js":[function(require,module,exports) {
+},{"moment":"node_modules/moment/moment.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _Todos = require("./api/Todos");
@@ -15679,7 +15702,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "8356" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "4164" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

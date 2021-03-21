@@ -1,4 +1,6 @@
 import { renderContactsForm } from './renderContactsForm';
+import { addContactFormBtnListener } from './addContactFormBtnListener';
+import { addFormBlurEventListener } from './addFormBlurEventListener';
 
 export function clearForm() {
   const contactFormBtn = document.querySelector('#contactFormBtn').parentNode;
@@ -23,6 +25,8 @@ export function clearForm() {
     todoContact.remove();
   });
   // Add new contact form after cleanup
-  renderContactsForm(contactFormBtn, null);
+  renderContactsForm(contactFormBtn, {});
+  addContactFormBtnListener();
+  addFormBlurEventListener();
   // console.log(todoContacts);
 }

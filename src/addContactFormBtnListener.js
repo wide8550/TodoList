@@ -4,6 +4,6 @@ export const addContactFormBtnListener = () => {
   contactFormBtn.addEventListener('click', (e) => {
     e.preventDefault();
     // console.log(e.target);
-    renderContactsForm(e.target.parentNode.parentNode, null);
+    renderContactsForm(e.target.parentNode.parentNode, {});
   });
 };

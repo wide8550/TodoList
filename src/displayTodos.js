@@ -14,6 +14,7 @@ import { pageScroll } from '../utils/pageScroll';
 const displayResult = document.getElementById('showTodo');
 const displayFinishedResult = document.getElementById('completeTodo');
 import { validate } from './formValidate';
+import { clearForm } from './clearForm';
 export const displayTodos = (data) => {
   const { output, finishedOutput } = renderDatas(data);
   const TodosParent = document.getElementById('showTodo');
@@ -73,7 +74,8 @@ export const displayTodos = (data) => {
         const editTodoBtn = document.querySelector('#editTodoBtn');
         const cancelEditBtn = document.querySelector('#cancelEditBtn');
 
-        editTodoBtn.addEventListener('click', () => {
+        editTodoBtn.addEventListener('click', editTodos);
+        function editTodos() {
           console.log('Submit Edit!');
           const input = getInputForm();
           const deadline = input.deadline.deadlineTime
@@ -92,14 +94,19 @@ export const displayTodos = (data) => {
             checkInputFlag = true;
           }
           if (checkInputFlag) {
+            console.log(input);
             editTodo(currentTodoId, input);
             inputForm.innerHTML = renderInputForm();
+            addContactFormBtnListener();
+            addFormBlurEventListener();
             pageScroll(currentTodo);
           }
-        });
+        }
         cancelEditBtn.addEventListener('click', () => {
           editTodoBtn.removeEventListener('click', editTodos);
           inputForm.innerHTML = renderInputForm();
+          addContactFormBtnListener();
+          addFormBlurEventListener();
         });
       });
     });

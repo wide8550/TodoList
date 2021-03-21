@@ -38,19 +38,17 @@ function renderContactForm(contactName, contactContent) {
 
 export function renderContactsForm(target, contacts) {
   // console.log(contacts);
-  if (!contacts) {
+  if (JSON.stringify(contacts) == '{}') {
     let output = '';
     output += renderContactForm(null, '');
-    console.log('shit');
     displayBeforeBegin(output, target);
     addFormBlurEventListener();
     return output;
     // target.insertAdjacentHTML('beforebegin', output);
   } else {
-    console.log('check');
     let output = '';
     for (let key in contacts) {
-      console.log(key, contacts[key]);
+      // console.log(key, contacts[key]);
       output += renderContactForm(key, contacts[key]);
     }
     addFormBlurEventListener();
