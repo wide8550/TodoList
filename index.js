@@ -5,14 +5,19 @@ import { clearForm } from './src/clearForm';
 
 import { displayTodos } from './src/displayTodos';
 
-import { addContactFormBtnListener } from './src/addContactFormBtnListener';
 import { getInputForm } from './src/getInputForm';
 import { validate } from './src/formValidate';
+import { addContactFormBtnListener } from './src/addContactFormBtnListener';
 import { addFormBlurEventListener } from './src/addFormBlurEventListener';
+import { renderContactsForm } from './src/renderContactsForm';
+import { displayBeforeBegin, displayAfterBegin } from './src/display';
+import { renderInputForm } from './src/renderInputForm';
 
-const submitBtn = document.getElementById('submitTodo');
-const form = document.querySelector('#inputForm');
 let globalCheck;
+
+const form = document.querySelector('#inputForm');
+
+const inputForm = document.querySelector('#inputForm');
 
 // show clock
 clock();
@@ -20,13 +25,18 @@ clock();
 // getTodos().then((data) => {
 //   displayResult.innerHTML = renderDatas(data);
 // });
-getTodos().then((data) => displayTodos(data));
 
-// validate();
+const output = renderInputForm();
+
+displayAfterBegin(output, inputForm);
+
+getTodos().then((data) => displayTodos(data));
 
 // Event Listener
 
+console.log('addContactFormListener =.= ');
 addContactFormBtnListener();
+addFormBlurEventListener();
 
 // submit event listener
 form.addEventListener('submit', (e) => {
@@ -40,13 +50,13 @@ form.addEventListener('submit', (e) => {
     ? input.deadline.deadlineDate + ' ' + input.deadline.deadlineTime
     : input.deadline.deadlineDate;
   input.deadline = deadline;
-  console.log(input);
+
+  // 表格驗證
   const check = validate();
 
-  globalCheck = check;
-  console.log(globalCheck);
+  // globalCheck = check;
+  // console.log(globalCheck);
 
-  // console.log(check);
   if (
     check.title &&
     check.deadlineDate &&
@@ -55,17 +65,22 @@ form.addEventListener('submit', (e) => {
   ) {
     checkInputFlag = true;
   }
+  // 驗證通過
   if (checkInputFlag) {
+    // api 建立todo
     createTodo(input);
+    //清除表格 (裡面有移除所有contacts)
     clearForm();
+    // renderContactsForm({})新增 contact 空白表格
+    const output = renderContactsForm({});
+    const contactFormBtnParent = document.querySelector('#contactFormBtn')
+      .parentElement;
+    // displayBeforeBegin 插入 contact 表格
+    displayBeforeBegin(output, contactFormBtnParent);
+    // 新增空白表格 + 插入表格
+    addContactFormBtnListener();
+
+    // 新增 BlurEventListener if form新增的input沒有'blurListener' 的 attribute
+    addFormBlurEventListener();
   }
 });
-
-addFormBlurEventListener();
-// form.querySelectorAll('input').forEach((input) =>
-//   input.addEventListener('blur', () => {
-//     const check = validate();
-//     globalCheck = check;
-//     console.log(globalCheck);
-//   })
-// );

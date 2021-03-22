@@ -1,4 +1,4 @@
-import { displayAfterBegin, displayAfterEnd } from './display';
+import { displayAfterBegin } from './display';
 import { renderDatas } from './renderDatas';
 
 import { removeDisplay } from './removeDisplay';
@@ -13,6 +13,7 @@ import { pageScroll } from '../utils/pageScroll';
 
 const displayResult = document.getElementById('showTodo');
 const displayFinishedResult = document.getElementById('completeTodo');
+
 import { validate } from './formValidate';
 import { clearForm } from './clearForm';
 export const displayTodos = (data) => {
@@ -61,19 +62,25 @@ export const displayTodos = (data) => {
       e.preventDefault();
       // for checking if input field is all validated, ready to submit edit
       let checkInputFlag = false;
+
       const inputForm = document.querySelector('#inputForm');
-      pageScroll(inputForm);
       const currentTodo = e.target.closest('.todo');
       const currentTodoId = currentTodo.getAttribute('id');
+      // render input form from data
+      pageScroll(inputForm);
 
       getTodo(currentTodoId).then((data) => {
-        console.log(data);
-        inputForm.innerHTML = renderInputForm(data);
+        const output = renderInputForm(data);
+        removeDisplay(inputForm);
+        displayAfterBegin(output, inputForm);
         addContactFormBtnListener();
+        addFormBlurEventListener();
 
         const editTodoBtn = document.querySelector('#editTodoBtn');
+
         const cancelEditBtn = document.querySelector('#cancelEditBtn');
 
+        // 送出編輯按鈕
         editTodoBtn.addEventListener('click', editTodos);
         function editTodos() {
           console.log('Submit Edit!');
@@ -94,11 +101,24 @@ export const displayTodos = (data) => {
             checkInputFlag = true;
           }
           if (checkInputFlag) {
-            console.log(input);
+            // api 編輯todo
             editTodo(currentTodoId, input);
-            inputForm.innerHTML = renderInputForm();
+            //清除表格 (裡面有移除所有contacts)
+            clearForm();
+
+            // 重新 render input form 因為加了 edit cancel btn
+            // inputForm.innerHTML = renderInputForm();
+            const output = renderInputForm();
+            removeDisplay(inputForm);
+            displayAfterBegin(output, inputForm);
+
+            // 新增空白表格 + 插入表格
             addContactFormBtnListener();
+
+            // 新增 BlurEventListener if form新增的input沒有'blurListener' 的 attribute
             addFormBlurEventListener();
+
+            // addContactFormBtnListener();
             pageScroll(currentTodo);
           }
         }

@@ -1,16 +1,15 @@
-import { addFormBlurEventListener } from './addFormBlurEventListener';
-import { displayBeforeBegin } from './display';
 function renderContactForm(contactName, contactContent) {
   return `<div class="col-9 contact">
-  <div class="input-group mb-3">
+  <div class="input-group mb-4 position-relative">
     <input
       type="text"
-      class="form-control"
+      class="form-control phoneNumber"
       value="${contactContent}"
       aria-label="Text input with dropdown button"
+      name="phoneNumber"
     />
     <select
-      class="form-select"
+      class="form-select rounded-end"
       aria-label="Default select example"
     >
       <option value="phone" ${
@@ -36,25 +35,19 @@ function renderContactForm(contactName, contactContent) {
 </div>`;
 }
 
-export function renderContactsForm(target, contacts) {
+export function renderContactsForm(contacts) {
   // console.log(contacts);
   if (JSON.stringify(contacts) == '{}') {
     let output = '';
     output += renderContactForm(null, '');
-    displayBeforeBegin(output, target);
-    addFormBlurEventListener();
+    // console.log(output);
     return output;
-    // target.insertAdjacentHTML('beforebegin', output);
   } else {
     let output = '';
     for (let key in contacts) {
       // console.log(key, contacts[key]);
       output += renderContactForm(key, contacts[key]);
     }
-    addFormBlurEventListener();
-    // console.log(output);
-    // displayBeforeBegin(output, target);
     return output;
-    // target.insertAdjacentHTML('beforebegin', output);
   }
 }

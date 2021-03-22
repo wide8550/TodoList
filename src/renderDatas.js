@@ -55,6 +55,7 @@ export const renderDatas = (datas) => {
           >
             <div class="accordion-body">
               ${data.contacts ? renderContacts(data.contacts) : ''}
+              ${data.contacts && data.content && '<hr />'}
               <p>${data.content}</p>
             </div>
           </div>
@@ -102,6 +103,7 @@ export const renderDatas = (datas) => {
             >
               <div class="accordion-body">
                 ${data.contacts ? renderContacts(data.contacts) : ''}
+                ${data.contacts && data.content && '<hr />'}
                 <p>${data.content}</p>
               </div>
             </div>

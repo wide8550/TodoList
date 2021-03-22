@@ -4,22 +4,17 @@ function renderContact(contactName, contactContent) {
 
 // render data contacts
 export const renderContacts = (contacts) => {
-  if (!contacts) {
-    console.log('No Contacts');
-    return;
+  // console.log(contacts);
+  if (JSON.stringify(contacts) === '{}') {
+    // console.log('No Contacts');
+    return '';
   }
   let output = '';
   for (let key in contacts) {
     output += renderContact(key, contacts[key]);
   }
 
-  if (!output) {
-    return '';
-  } else {
-    return `
-    <div class="contact-items">
-      ${output}
-    </div>
-    <hr />`;
-  }
+  return `<div class="contact-items">
+            ${output}
+          </div>`;
 };

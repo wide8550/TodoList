@@ -1972,9 +1972,10 @@ function renderContact(contactName, contactContent) {
 
 
 const renderContacts = contacts => {
-  if (!contacts) {
-    console.log('No Contacts');
-    return;
+  // console.log(contacts);
+  if (JSON.stringify(contacts) === '{}') {
+    // console.log('No Contacts');
+    return '';
   }
 
   let output = '';
@@ -1983,15 +1984,9 @@ const renderContacts = contacts => {
     output += renderContact(key, contacts[key]);
   }
 
-  if (!output) {
-    return '';
-  } else {
-    return `
-    <div class="contact-items">
-      ${output}
-    </div>
-    <hr />`;
-  }
+  return `<div class="contact-items">
+            ${output}
+          </div>`;
 };
 
 exports.renderContacts = renderContacts;
@@ -7730,6 +7725,7 @@ const renderDatas = datas => {
           >
             <div class="accordion-body">
               ${data.contacts ? (0, _renderContacts.renderContacts)(data.contacts) : ''}
+              ${data.contacts && data.content && '<hr />'}
               <p>${data.content}</p>
             </div>
           </div>
@@ -7777,6 +7773,7 @@ const renderDatas = datas => {
             >
               <div class="accordion-body">
                 ${data.contacts ? (0, _renderContacts.renderContacts)(data.contacts) : ''}
+                ${data.contacts && data.content && '<hr />'}
                 <p>${data.content}</p>
               </div>
             </div>
@@ -7793,7 +7790,60 @@ const renderDatas = datas => {
 };
 
 exports.renderDatas = renderDatas;
-},{"./renderContacts":"src/renderContacts.js","moment":"node_modules/moment/moment.js"}],"node_modules/validator/lib/util/assertString.js":[function(require,module,exports) {
+},{"./renderContacts":"src/renderContacts.js","moment":"node_modules/moment/moment.js"}],"src/renderContactsForm.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.renderContactsForm = renderContactsForm;
+
+function renderContactForm(contactName, contactContent) {
+  return `<div class="col-9 contact">
+  <div class="input-group mb-4 position-relative">
+    <input
+      type="text"
+      class="form-control phoneNumber"
+      value="${contactContent}"
+      aria-label="Text input with dropdown button"
+      name="phoneNumber"
+    />
+    <select
+      class="form-select rounded-end"
+      aria-label="Default select example"
+    >
+      <option value="phone" ${contactName === 'phone' ? 'selected' : null}>Phone</option>
+      <option value="home" ${contactName === 'home' ? 'selected' : null}>Home</option>
+      <option value="office" ${contactName === 'office' ? 'selected' : null}>Office</option>
+      <option value="fax" ${contactName === 'fax' ? 'selected' : null}>Fax</option>
+      <option value="others" ${contactName === 'other' ? 'selected' : null}>Others</option>
+    </select> 
+    <small
+      class="invisible position-absolute text-danger fw-bold"
+    ></small>
+  </div>
+</div>`;
+}
+
+function renderContactsForm(contacts) {
+  // console.log(contacts);
+  if (JSON.stringify(contacts) == '{}') {
+    let output = '';
+    output += renderContactForm(null, ''); // console.log(output);
+
+    return output;
+  } else {
+    let output = '';
+
+    for (let key in contacts) {
+      // console.log(key, contacts[key]);
+      output += renderContactForm(key, contacts[key]);
+    }
+
+    return output;
+  }
+}
+},{}],"node_modules/validator/lib/util/assertString.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14879,7 +14929,7 @@ const validate = () => {
 
 
     const small = deadlineTime.parentElement.querySelector('small');
-    small.classList.remove('invisible'); // set result to true pretend it ready
+    small.classList.add('invisible'); // set result to true pretend it ready
 
     result.deadlineTime = true;
   } else if (!_validator.default.matches(deadlineTimeValue, /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/g)) {
@@ -14889,37 +14939,35 @@ const validate = () => {
     result.deadlineTime = true;
   }
 
-  if (contacts.length > 0) {
-    contacts.forEach(contact => {
-      const input = contact.querySelector('input');
-      const contactValue = input.value.trim(); // console.log(input.classList.contains('phoneNumber'));
+  contacts.forEach(contact => {
+    const input = contact.querySelector('input');
+    const contactValue = input.value.trim(); // console.log(input.classList.contains('phoneNumber'));
 
-      if (_validator.default.isEmpty(contactValue)) {
-        // console.log(contactValue);
-        if (input.classList.contains('border-success')) {
-          input.classList.remove('border', 'border-success');
-        }
-
-        if (input.classList.contains('border-danger')) {
-          input.classList.remove('border', 'border-danger');
-        }
-
-        const small = contact.querySelector('small');
-        small.classList.add('invisible'); // console.log(contact);
-
-        result.contracts = true;
-      } else if (!_validator.default.matches(contactValue, /^(\d+([ -]?|\d)*\d+)$/g)) {
-        setErrorFor(input, 'It is wrong format');
-      } else {
-        setSuccessFor(input); // count every single contact make sure every contact have been set to Success
-
-        cntContacts++;
+    if (_validator.default.isEmpty(contactValue)) {
+      // console.log(contactValue);
+      if (input.classList.contains('border-success')) {
+        input.classList.remove('border', 'border-success');
       }
-    });
 
-    if (cntContacts === contacts.length) {
+      if (input.classList.contains('border-danger')) {
+        input.classList.remove('border', 'border-danger');
+      }
+
+      const small = contact.querySelector('small');
+      small.classList.add('invisible'); // console.log(contact);
+
       result.contracts = true;
+    } else if (!_validator.default.matches(contactValue, /^(\d+([ -]?|\d)*\d+)$/g)) {
+      setErrorFor(input, 'It is wrong format');
+    } else {
+      setSuccessFor(input); // count every single contact make sure every contact have been set to Success
+
+      cntContacts++;
     }
+  });
+
+  if (cntContacts === contacts.length) {
+    result.contracts = true;
   } // console.log(result);
 
 
@@ -14935,6 +14983,7 @@ function setErrorFor(input, message) {
 
   input.classList.add('border', 'border-danger');
   const col = input.parentElement;
+  console.log('input.parent:', col);
   const small = col.querySelector('small');
   small.classList.remove('invisible');
   small.innerText = message;
@@ -14953,6 +15002,10 @@ function setSuccessFor(input) {
   const col = input.parentElement;
   const small = col.querySelector('small');
   small.classList.add('invisible');
+
+  if (input.classList.contains('phoneNumber')) {
+    small.classList.remove('top-100');
+  }
 }
 },{"validator":"node_modules/validator/index.js"}],"src/addFormBlurEventListener.js":[function(require,module,exports) {
 "use strict";
@@ -14964,77 +15017,76 @@ exports.addFormBlurEventListener = void 0;
 
 var _formValidate = require("./formValidate");
 
-const form = document.querySelector('#inputForm');
+const form = document.querySelector('#inputForm'); // 新增 BlurEventListener if form新增的input沒有'blurListener' 的 attribute
 
 const addFormBlurEventListener = () => {
-  form.querySelectorAll('input').forEach(input => input.addEventListener('blur', () => {
-    (0, _formValidate.validate)(); // globalCheck = check;
-    // console.log(globalCheck);
-  }));
+  form.querySelectorAll('input').forEach(input => {
+    if (input.getAttribute('blurListener') !== 'true') {
+      input.addEventListener('blur', e => {
+        const target = e.target;
+        target.setAttribute('blurListener', 'true');
+        (0, _formValidate.validate)();
+      });
+    }
+  }); // globalCheck = check;
+  // console.log(globalCheck);
 };
 
 exports.addFormBlurEventListener = addFormBlurEventListener;
-},{"./formValidate":"src/formValidate.js"}],"src/renderContactsForm.js":[function(require,module,exports) {
+},{"./formValidate":"src/formValidate.js"}],"src/addContactFormBtnListener.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.renderContactsForm = renderContactsForm;
+exports.addContactFormBtnListener = void 0;
+
+var _renderContactsForm = require("./renderContactsForm");
 
 var _addFormBlurEventListener = require("./addFormBlurEventListener");
 
 var _display = require("./display");
 
-function renderContactForm(contactName, contactContent) {
-  return `<div class="col-9 contact">
-  <div class="input-group mb-3">
-    <input
-      type="text"
-      class="form-control"
-      value="${contactContent}"
-      aria-label="Text input with dropdown button"
-    />
-    <select
-      class="form-select"
-      aria-label="Default select example"
-    >
-      <option value="phone" ${contactName === 'phone' ? 'selected' : null}>Phone</option>
-      <option value="home" ${contactName === 'home' ? 'selected' : null}>Home</option>
-      <option value="office" ${contactName === 'office' ? 'selected' : null}>Office</option>
-      <option value="fax" ${contactName === 'fax' ? 'selected' : null}>Fax</option>
-      <option value="others" ${contactName === 'other' ? 'selected' : null}>Others</option>
-    </select> 
-    <small
-      class="invisible position-absolute text-danger fw-bold"
-    ></small>
-  </div>
-</div>`;
-}
+const addContactFormBtnListener = () => {
+  const contactFormBtn = document.querySelector('#contactFormBtn i');
 
-function renderContactsForm(target, contacts) {
-  // console.log(contacts);
-  if (JSON.stringify(contacts) == '{}') {
-    let output = '';
-    output += renderContactForm(null, '');
-    (0, _display.displayBeforeBegin)(output, target);
-    (0, _addFormBlurEventListener.addFormBlurEventListener)();
-    return output; // target.insertAdjacentHTML('beforebegin', output);
-  } else {
-    let output = '';
+  if (contactFormBtn.getAttribute('contactBtnListener') !== 'true') {
+    contactFormBtn.addEventListener('click', e => {
+      e.preventDefault();
+      const target = e.target;
+      target.setAttribute('contactBtnListener', 'true'); // renderContactsForm({})新增 contact 空白表格
 
-    for (let key in contacts) {
-      // console.log(key, contacts[key]);
-      output += renderContactForm(key, contacts[key]);
-    }
+      const output = (0, _renderContactsForm.renderContactsForm)({}); // displayBeforeBegin 插入 contact 表格
 
-    (0, _addFormBlurEventListener.addFormBlurEventListener)(); // console.log(output);
-    // displayBeforeBegin(output, target);
-
-    return output; // target.insertAdjacentHTML('beforebegin', output);
+      (0, _display.displayBeforeBegin)(output, e.target.parentNode.parentNode);
+      (0, _addFormBlurEventListener.addFormBlurEventListener)();
+    });
   }
-}
-},{"./addFormBlurEventListener":"src/addFormBlurEventListener.js","./display":"src/display.js"}],"src/renderInputForm.js":[function(require,module,exports) {
+};
+
+exports.addContactFormBtnListener = addContactFormBtnListener;
+},{"./renderContactsForm":"src/renderContactsForm.js","./addFormBlurEventListener":"src/addFormBlurEventListener.js","./display":"src/display.js"}],"src/renderInputContactsForm.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.renderInputContactsForm = void 0;
+
+var _renderContactsForm = require("./renderContactsForm");
+
+var _addContactFormBtnListener = require("./addContactFormBtnListener");
+
+const renderInputContactsForm = contacts => {
+  // const contactFormBtnParent = document.querySelector('#contactFormBtn')
+  //   .parentElement;
+  const output = (0, _renderContactsForm.renderContactsForm)(contacts);
+  (0, _addContactFormBtnListener.addContactFormBtnListener)();
+  return output;
+};
+
+exports.renderInputContactsForm = renderInputContactsForm;
+},{"./renderContactsForm":"src/renderContactsForm.js","./addContactFormBtnListener":"src/addContactFormBtnListener.js"}],"src/renderInputForm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15048,9 +15100,10 @@ var _moment = _interopRequireDefault(require("moment"));
 
 var _renderContacts = require("./renderContacts");
 
+var _renderInputContactsForm = require("./renderInputContactsForm");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import { renderContacts } from './renderContacts';
 const renderInputForm = data => {
   let output = '';
   const contactFormBtn = document.querySelector('#contactFormBtn');
@@ -15203,7 +15256,7 @@ const renderInputForm = data => {
         </div>
      
         <div class="row row-cols-4 contacts d-flex align-items-baseline mb-2">
-          ${(0, _renderContactsForm.renderContactsForm)(contactFormBtn, data.contacts)}
+          ${(0, _renderInputContactsForm.renderInputContactsForm)(data.contacts)}
           <div class="col">
             <a id="contactFormBtn" class="d-flex text-decoration-none">
               <i class="fas fa-plus-circle fs-3"></i>
@@ -15244,7 +15297,7 @@ const renderInputForm = data => {
 };
 
 exports.renderInputForm = renderInputForm;
-},{"./renderContactsForm":"src/renderContactsForm.js","moment":"node_modules/moment/moment.js","./renderContacts":"src/renderContacts.js"}],"src/getInputForm.js":[function(require,module,exports) {
+},{"./renderContactsForm":"src/renderContactsForm.js","moment":"node_modules/moment/moment.js","./renderContacts":"src/renderContacts.js","./renderInputContactsForm":"src/renderInputContactsForm.js"}],"src/getInputForm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15284,27 +15337,7 @@ const getInputForm = () => {
 };
 
 exports.getInputForm = getInputForm;
-},{}],"src/addContactFormBtnListener.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.addContactFormBtnListener = void 0;
-
-var _renderContactsForm = require("./renderContactsForm");
-
-const addContactFormBtnListener = () => {
-  const contactFormBtn = document.querySelector('#contactFormBtn i');
-  contactFormBtn.addEventListener('click', e => {
-    e.preventDefault(); // console.log(e.target);
-
-    (0, _renderContactsForm.renderContactsForm)(e.target.parentNode.parentNode, {});
-  });
-};
-
-exports.addContactFormBtnListener = addContactFormBtnListener;
-},{"./renderContactsForm":"src/renderContactsForm.js"}],"utils/pageScroll.js":[function(require,module,exports) {
+},{}],"utils/pageScroll.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15338,22 +15371,27 @@ var _addContactFormBtnListener = require("./addContactFormBtnListener");
 var _addFormBlurEventListener = require("./addFormBlurEventListener");
 
 function clearForm() {
-  const contactFormBtn = document.querySelector('#contactFormBtn').parentNode;
-  const todoContacts = document.querySelectorAll('.contacts .contact');
-  document.getElementById('todo-title').value = '';
-  document.getElementById('todo-title').classList.remove('border', 'border-success', 'border-danger');
+  const todoContacts = document.querySelectorAll('.contacts .contact'); // title 值 = ''
+
+  document.getElementById('todo-title').value = ''; // 移除 title 的 style class border border-success border-danger
+
+  document.getElementById('todo-title').classList.remove('border', 'border-success', 'border-danger'); // deadline date
+
   document.getElementById('todo-deadline').value = '';
-  document.getElementById('todo-deadline').classList.remove('border', 'border-success', 'border-danger');
+  document.getElementById('todo-deadline').classList.remove('border', 'border-success', 'border-danger'); // time
+
   document.getElementById('time-picker').value = '';
-  document.getElementById('time-picker').classList.remove('border', 'border-success', 'border-danger');
-  document.getElementById('todo-content').value = '';
+  document.getElementById('time-picker').classList.remove('border', 'border-success', 'border-danger'); // content
+
+  document.getElementById('todo-content').value = ''; // 移除所有 contacts
+
   todoContacts.forEach(todoContact => {
     todoContact.remove();
   }); // Add new contact form after cleanup
-
-  (0, _renderContactsForm.renderContactsForm)(contactFormBtn, {});
-  (0, _addContactFormBtnListener.addContactFormBtnListener)();
-  (0, _addFormBlurEventListener.addFormBlurEventListener)(); // console.log(todoContacts);
+  // renderContactsForm(contactFormBtn, {});
+  // addContactFormBtnListener();
+  // addFormBlurEventListener();
+  // console.log(todoContacts);
 }
 },{"./renderContactsForm":"src/renderContactsForm.js","./addContactFormBtnListener":"src/addContactFormBtnListener.js","./addFormBlurEventListener":"src/addFormBlurEventListener.js"}],"src/displayTodos.js":[function(require,module,exports) {
 "use strict";
@@ -15436,15 +15474,19 @@ const displayTodos = data => {
 
       let checkInputFlag = false;
       const inputForm = document.querySelector('#inputForm');
-      (0, _pageScroll.pageScroll)(inputForm);
       const currentTodo = e.target.closest('.todo');
-      const currentTodoId = currentTodo.getAttribute('id');
+      const currentTodoId = currentTodo.getAttribute('id'); // render input form from data
+
+      (0, _pageScroll.pageScroll)(inputForm);
       (0, _Todos.getTodo)(currentTodoId).then(data => {
-        console.log(data);
-        inputForm.innerHTML = (0, _renderInputForm.renderInputForm)(data);
+        const output = (0, _renderInputForm.renderInputForm)(data);
+        (0, _removeDisplay.removeDisplay)(inputForm);
+        (0, _display.displayAfterBegin)(output, inputForm);
         (0, _addContactFormBtnListener.addContactFormBtnListener)();
+        (0, _addFormBlurEventListener.addFormBlurEventListener)();
         const editTodoBtn = document.querySelector('#editTodoBtn');
-        const cancelEditBtn = document.querySelector('#cancelEditBtn');
+        const cancelEditBtn = document.querySelector('#cancelEditBtn'); // 送出編輯按鈕
+
         editTodoBtn.addEventListener('click', editTodos);
 
         function editTodos() {
@@ -15460,11 +15502,20 @@ const displayTodos = data => {
           }
 
           if (checkInputFlag) {
-            console.log(input);
-            (0, _Todos.editTodo)(currentTodoId, input);
-            inputForm.innerHTML = (0, _renderInputForm.renderInputForm)();
-            (0, _addContactFormBtnListener.addContactFormBtnListener)();
-            (0, _addFormBlurEventListener.addFormBlurEventListener)();
+            // api 編輯todo
+            (0, _Todos.editTodo)(currentTodoId, input); //清除表格 (裡面有移除所有contacts)
+
+            (0, _clearForm.clearForm)(); // 重新 render input form 因為加了 edit cancel btn
+            // inputForm.innerHTML = renderInputForm();
+
+            const output = (0, _renderInputForm.renderInputForm)();
+            (0, _removeDisplay.removeDisplay)(inputForm);
+            (0, _display.displayAfterBegin)(output, inputForm); // 新增空白表格 + 插入表格
+
+            (0, _addContactFormBtnListener.addContactFormBtnListener)(); // 新增 BlurEventListener if form新增的input沒有'blurListener' 的 attribute
+
+            (0, _addFormBlurEventListener.addFormBlurEventListener)(); // addContactFormBtnListener();
+
             (0, _pageScroll.pageScroll)(currentTodo);
           }
         }
@@ -15622,27 +15673,36 @@ var _clearForm = require("./src/clearForm");
 
 var _displayTodos = require("./src/displayTodos");
 
-var _addContactFormBtnListener = require("./src/addContactFormBtnListener");
-
 var _getInputForm = require("./src/getInputForm");
 
 var _formValidate = require("./src/formValidate");
 
+var _addContactFormBtnListener = require("./src/addContactFormBtnListener");
+
 var _addFormBlurEventListener = require("./src/addFormBlurEventListener");
 
-const submitBtn = document.getElementById('submitTodo');
+var _renderContactsForm = require("./src/renderContactsForm");
+
+var _display = require("./src/display");
+
+var _renderInputForm = require("./src/renderInputForm");
+
+let globalCheck;
 const form = document.querySelector('#inputForm');
-let globalCheck; // show clock
+const inputForm = document.querySelector('#inputForm'); // show clock
 
 (0, _clock.clock)(); // display Todos
 // getTodos().then((data) => {
 //   displayResult.innerHTML = renderDatas(data);
 // });
 
-(0, _Todos.getTodos)().then(data => (0, _displayTodos.displayTodos)(data)); // validate();
-// Event Listener
+const output = (0, _renderInputForm.renderInputForm)();
+(0, _display.displayAfterBegin)(output, inputForm);
+(0, _Todos.getTodos)().then(data => (0, _displayTodos.displayTodos)(data)); // Event Listener
 
-(0, _addContactFormBtnListener.addContactFormBtnListener)(); // submit event listener
+console.log('addContactFormListener =.= ');
+(0, _addContactFormBtnListener.addContactFormBtnListener)();
+(0, _addFormBlurEventListener.addFormBlurEventListener)(); // submit event listener
 
 form.addEventListener('submit', e => {
   e.preventDefault(); // const form = document.querySelector('#inputForm');
@@ -15652,29 +15712,33 @@ form.addEventListener('submit', e => {
   const input = (0, _getInputForm.getInputForm)();
   input.finished = false;
   const deadline = input.deadline.deadlineTime ? input.deadline.deadlineDate + ' ' + input.deadline.deadlineTime : input.deadline.deadlineDate;
-  input.deadline = deadline;
-  console.log(input);
-  const check = (0, _formValidate.validate)();
-  globalCheck = check;
-  console.log(globalCheck); // console.log(check);
+  input.deadline = deadline; // 表格驗證
+
+  const check = (0, _formValidate.validate)(); // globalCheck = check;
+  // console.log(globalCheck);
 
   if (check.title && check.deadlineDate && check.deadlineTime && check.contracts) {
     checkInputFlag = true;
-  }
+  } // 驗證通過
+
 
   if (checkInputFlag) {
-    (0, _Todos.createTodo)(input);
-    (0, _clearForm.clearForm)();
+    // api 建立todo
+    (0, _Todos.createTodo)(input); //清除表格 (裡面有移除所有contacts)
+
+    (0, _clearForm.clearForm)(); // renderContactsForm({})新增 contact 空白表格
+
+    const output = (0, _renderContactsForm.renderContactsForm)({});
+    const contactFormBtnParent = document.querySelector('#contactFormBtn').parentElement; // displayBeforeBegin 插入 contact 表格
+
+    (0, _display.displayBeforeBegin)(output, contactFormBtnParent); // 新增空白表格 + 插入表格
+
+    (0, _addContactFormBtnListener.addContactFormBtnListener)(); // 新增 BlurEventListener if form新增的input沒有'blurListener' 的 attribute
+
+    (0, _addFormBlurEventListener.addFormBlurEventListener)();
   }
 });
-(0, _addFormBlurEventListener.addFormBlurEventListener)(); // form.querySelectorAll('input').forEach((input) =>
-//   input.addEventListener('blur', () => {
-//     const check = validate();
-//     globalCheck = check;
-//     console.log(globalCheck);
-//   })
-// );
-},{"./api/Todos":"api/Todos.js","./src/clock":"src/clock.js","./src/clearForm":"src/clearForm.js","./src/displayTodos":"src/displayTodos.js","./src/addContactFormBtnListener":"src/addContactFormBtnListener.js","./src/getInputForm":"src/getInputForm.js","./src/formValidate":"src/formValidate.js","./src/addFormBlurEventListener":"src/addFormBlurEventListener.js"}],"C:/Users/Ben/AppData/Roaming/nvm/v12.18.3/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./api/Todos":"api/Todos.js","./src/clock":"src/clock.js","./src/clearForm":"src/clearForm.js","./src/displayTodos":"src/displayTodos.js","./src/getInputForm":"src/getInputForm.js","./src/formValidate":"src/formValidate.js","./src/addContactFormBtnListener":"src/addContactFormBtnListener.js","./src/addFormBlurEventListener":"src/addFormBlurEventListener.js","./src/renderContactsForm":"src/renderContactsForm.js","./src/display":"src/display.js","./src/renderInputForm":"src/renderInputForm.js"}],"C:/Users/Ben/AppData/Roaming/nvm/v12.18.3/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -15702,7 +15766,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "4164" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "4912" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

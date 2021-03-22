@@ -1,7 +1,8 @@
 import { renderContactsForm } from './renderContactsForm';
 import moment from 'moment';
 import { renderContacts } from './renderContacts';
-// import { renderContacts } from './renderContacts';
+import { renderInputContactsForm } from './renderInputContactsForm';
+
 export const renderInputForm = (data) => {
   let output = '';
 
@@ -162,7 +163,7 @@ export const renderInputForm = (data) => {
         </div>
      
         <div class="row row-cols-4 contacts d-flex align-items-baseline mb-2">
-          ${renderContactsForm(contactFormBtn, data.contacts)}
+          ${renderInputContactsForm(data.contacts)}
           <div class="col">
             <a id="contactFormBtn" class="d-flex text-decoration-none">
               <i class="fas fa-plus-circle fs-3"></i>

@@ -40,7 +40,7 @@ export const validate = () => {
     }
     // remove class invisible in tag 'small'
     const small = deadlineTime.parentElement.querySelector('small');
-    small.classList.remove('invisible');
+    small.classList.add('invisible');
     // set result to true pretend it ready
     result.deadlineTime = true;
   } else if (
@@ -51,36 +51,36 @@ export const validate = () => {
     setSuccessFor(deadlineTime);
     result.deadlineTime = true;
   }
-  if (contacts.length > 0) {
-    contacts.forEach((contact) => {
-      const input = contact.querySelector('input');
-      const contactValue = input.value.trim();
-      // console.log(input.classList.contains('phoneNumber'));
-      if (validator.isEmpty(contactValue)) {
-        // console.log(contactValue);
-        if (input.classList.contains('border-success')) {
-          input.classList.remove('border', 'border-success');
-        }
-        if (input.classList.contains('border-danger')) {
-          input.classList.remove('border', 'border-danger');
-        }
-        const small = contact.querySelector('small');
 
-        small.classList.add('invisible');
-        // console.log(contact);
-        result.contracts = true;
-      } else if (!validator.matches(contactValue, /^(\d+([ -]?|\d)*\d+)$/g)) {
-        setErrorFor(input, 'It is wrong format');
-      } else {
-        setSuccessFor(input);
-        // count every single contact make sure every contact have been set to Success
-        cntContacts++;
+  contacts.forEach((contact) => {
+    const input = contact.querySelector('input');
+    const contactValue = input.value.trim();
+    // console.log(input.classList.contains('phoneNumber'));
+    if (validator.isEmpty(contactValue)) {
+      // console.log(contactValue);
+      if (input.classList.contains('border-success')) {
+        input.classList.remove('border', 'border-success');
       }
-    });
-    if (cntContacts === contacts.length) {
+      if (input.classList.contains('border-danger')) {
+        input.classList.remove('border', 'border-danger');
+      }
+      const small = contact.querySelector('small');
+
+      small.classList.add('invisible');
+      // console.log(contact);
       result.contracts = true;
+    } else if (!validator.matches(contactValue, /^(\d+([ -]?|\d)*\d+)$/g)) {
+      setErrorFor(input, 'It is wrong format');
+    } else {
+      setSuccessFor(input);
+      // count every single contact make sure every contact have been set to Success
+      cntContacts++;
     }
+  });
+  if (cntContacts === contacts.length) {
+    result.contracts = true;
   }
+
   // console.log(result);
   return result;
 };
@@ -91,6 +91,7 @@ function setErrorFor(input, message) {
   }
   input.classList.add('border', 'border-danger');
   const col = input.parentElement;
+  console.log('input.parent:', col);
   const small = col.querySelector('small');
   small.classList.remove('invisible');
   small.innerText = message;
@@ -107,4 +108,7 @@ function setSuccessFor(input) {
   const col = input.parentElement;
   const small = col.querySelector('small');
   small.classList.add('invisible');
+  if (input.classList.contains('phoneNumber')) {
+    small.classList.remove('top-100');
+  }
 }
