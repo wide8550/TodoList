@@ -14982,8 +14982,8 @@ function setErrorFor(input, message) {
   }
 
   input.classList.add('border', 'border-danger');
-  const col = input.parentElement;
-  console.log('input.parent:', col);
+  const col = input.parentElement; // console.log('input.parent:', col);
+
   const small = col.querySelector('small');
   small.classList.remove('invisible');
   small.innerText = message;
@@ -15094,11 +15094,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.renderInputForm = void 0;
 
-var _renderContactsForm = require("./renderContactsForm");
-
 var _moment = _interopRequireDefault(require("moment"));
-
-var _renderContacts = require("./renderContacts");
 
 var _renderInputContactsForm = require("./renderInputContactsForm");
 
@@ -15106,7 +15102,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const renderInputForm = data => {
   let output = '';
-  const contactFormBtn = document.querySelector('#contactFormBtn');
 
   if (!data) {
     output += `<div class="form-group">
@@ -15297,7 +15292,7 @@ const renderInputForm = data => {
 };
 
 exports.renderInputForm = renderInputForm;
-},{"./renderContactsForm":"src/renderContactsForm.js","moment":"node_modules/moment/moment.js","./renderContacts":"src/renderContacts.js","./renderInputContactsForm":"src/renderInputContactsForm.js"}],"src/getInputForm.js":[function(require,module,exports) {
+},{"moment":"node_modules/moment/moment.js","./renderInputContactsForm":"src/renderInputContactsForm.js"}],"src/getInputForm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15364,12 +15359,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.clearForm = clearForm;
 
-var _renderContactsForm = require("./renderContactsForm");
-
-var _addContactFormBtnListener = require("./addContactFormBtnListener");
-
-var _addFormBlurEventListener = require("./addFormBlurEventListener");
-
 function clearForm() {
   const todoContacts = document.querySelectorAll('.contacts .contact'); // title 值 = ''
 
@@ -15393,7 +15382,7 @@ function clearForm() {
   // addFormBlurEventListener();
   // console.log(todoContacts);
 }
-},{"./renderContactsForm":"src/renderContactsForm.js","./addContactFormBtnListener":"src/addContactFormBtnListener.js","./addFormBlurEventListener":"src/addFormBlurEventListener.js"}],"src/displayTodos.js":[function(require,module,exports) {
+},{}],"src/displayTodos.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15691,16 +15680,11 @@ let globalCheck;
 const form = document.querySelector('#inputForm');
 const inputForm = document.querySelector('#inputForm'); // show clock
 
-(0, _clock.clock)(); // display Todos
-// getTodos().then((data) => {
-//   displayResult.innerHTML = renderDatas(data);
-// });
-
+(0, _clock.clock)();
 const output = (0, _renderInputForm.renderInputForm)();
 (0, _display.displayAfterBegin)(output, inputForm);
 (0, _Todos.getTodos)().then(data => (0, _displayTodos.displayTodos)(data)); // Event Listener
 
-console.log('addContactFormListener =.= ');
 (0, _addContactFormBtnListener.addContactFormBtnListener)();
 (0, _addFormBlurEventListener.addFormBlurEventListener)(); // submit event listener
 
@@ -15714,8 +15698,7 @@ form.addEventListener('submit', e => {
   const deadline = input.deadline.deadlineTime ? input.deadline.deadlineDate + ' ' + input.deadline.deadlineTime : input.deadline.deadlineDate;
   input.deadline = deadline; // 表格驗證
 
-  const check = (0, _formValidate.validate)(); // globalCheck = check;
-  // console.log(globalCheck);
+  const check = (0, _formValidate.validate)();
 
   if (check.title && check.deadlineDate && check.deadlineTime && check.contracts) {
     checkInputFlag = true;

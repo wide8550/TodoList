@@ -1,7 +1,3 @@
-import { renderContactsForm } from './renderContactsForm';
-import { addContactFormBtnListener } from './addContactFormBtnListener';
-import { addFormBlurEventListener } from './addFormBlurEventListener';
-
 export function clearForm() {
   const todoContacts = document.querySelectorAll('.contacts .contact');
   // title 值 = ''

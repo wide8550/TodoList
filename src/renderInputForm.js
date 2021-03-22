@@ -1,12 +1,8 @@
-import { renderContactsForm } from './renderContactsForm';
 import moment from 'moment';
-import { renderContacts } from './renderContacts';
 import { renderInputContactsForm } from './renderInputContactsForm';
-
 export const renderInputForm = (data) => {
   let output = '';
 
-  const contactFormBtn = document.querySelector('#contactFormBtn');
   if (!data) {
     output += `<div class="form-group">
                   <div class="row row-cols-4">

@@ -21,10 +21,6 @@ const inputForm = document.querySelector('#inputForm');
 
 // show clock
 clock();
-// display Todos
-// getTodos().then((data) => {
-//   displayResult.innerHTML = renderDatas(data);
-// });
 
 const output = renderInputForm();
 
@@ -34,7 +30,6 @@ getTodos().then((data) => displayTodos(data));
 
 // Event Listener
 
-console.log('addContactFormListener =.= ');
 addContactFormBtnListener();
 addFormBlurEventListener();
 
@@ -53,9 +48,6 @@ form.addEventListener('submit', (e) => {
 
   // 表格驗證
   const check = validate();
-
-  // globalCheck = check;
-  // console.log(globalCheck);
 
   if (
     check.title &&

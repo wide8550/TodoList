@@ -91,7 +91,7 @@ function setErrorFor(input, message) {
   }
   input.classList.add('border', 'border-danger');
   const col = input.parentElement;
-  console.log('input.parent:', col);
+  // console.log('input.parent:', col);
   const small = col.querySelector('small');
   small.classList.remove('invisible');
   small.innerText = message;
